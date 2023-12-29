@@ -1,3 +1,4 @@
+import 'package:btt/view/google_map.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,12 +12,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Bus Transit Transportation',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SizedBox.shrink(),
+      home: const BusRoute(),
     );
   }
 }
