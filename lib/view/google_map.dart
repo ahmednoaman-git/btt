@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:btt/view/global/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -133,7 +134,7 @@ class _BusRouteState extends State<BusRoute> {
     for (var i = 0; i < widget.busAllStops.length; i++) {
       if (i == widget.busAllStops.length - 1) break;
       PolylineResult result = await polyPoints.getRouteBetweenCoordinates(
-        'AIzaSyB49dEcTb8Z1h1bvnCTaTt56ooJyFMPWLA',
+        Constants.googleMapsApiKey,
         PointLatLng(widget.busAllStops[i].latitude, widget.busAllStops[i].longitude),
         PointLatLng(widget.busAllStops[i + 1].latitude, widget.busAllStops[i + 1].longitude),
         travelMode: TravelMode.driving,

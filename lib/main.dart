@@ -1,37 +1,39 @@
-import 'package:btt/model/entities/map_location.dart';
-import 'package:btt/view/google_map.dart';
+import 'package:btt/tools/firebase_options.dart';
+import 'package:btt/view/admin/create_location_screen.dart';
+import 'package:btt/view/global/constants/colors.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
-
-  final List<MapLocation> myStops = [
-    MapLocation(id: '0', name: 'MyHome', latitude: 30.0734, longitude: 31.2806),
-    MapLocation(id: '2', name: 'MyHome', latitude: 30.074416, longitude: 31.304850),
-    MapLocation(id: '3', name: 'MyHome', latitude: 30.080122, longitude: 31.316457),
-    MapLocation(id: '4', name: 'MyHome', latitude: 30.067486, longitude: 31.329847),
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Bus Transit Transportation',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return ScreenUtilInit(
+      designSize: const Size(430, 932),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Bus Transit Transportation',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: AppColors.accent1),
+          scaffoldBackgroundColor: AppColors.background,
+          useMaterial3: true,
+          dialogTheme: const DialogTheme(
+            surfaceTintColor: Colors.transparent,
+          ),
+          appBarTheme: const AppBarTheme(
+            backgroundColor: AppColors.background,
+            elevation: 0,
+          ),
+        ),
+        home: CreateLocationScreen(),
       ),
-      home: const BusRoute(busAllStops: [
-        LatLng(30.0734, 31.2806),
-        LatLng(30.074416, 31.304850),
-        LatLng(30.080122, 31.316457),
-        LatLng(30.067486, 31.329847),
-      ]),
     );
   }
 }

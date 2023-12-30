@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapLocation {
@@ -7,18 +8,29 @@ class MapLocation {
   final double longitude;
 
   MapLocation({
-    required this.id,
+    this.id = '',
     required this.name,
     required this.latitude,
     required this.longitude,
   });
 
-  factory MapLocation.fromJson(Map<String, dynamic> json) => MapLocation(
-        id: json['id'],
-        name: json['name'],
-        latitude: json['latitude'],
-        longitude: json['longitude'],
-      );
+  factory MapLocation.fromJson(Map<String, dynamic> json) {
+    return MapLocation(
+      id: json['id'],
+      name: json['name'],
+      latitude: json['latitude'],
+      longitude: json['longitude'],
+    );
+  }
+
+  factory MapLocation.fromDocumentSnapshot(DocumentSnapshot doc) {
+    return MapLocation(
+      id: doc.id,
+      name: doc['name'],
+      latitude: doc['latitude'],
+      longitude: doc['longitude'],
+    );
+  }
 
   Map<String, dynamic> toJson() {
     return {

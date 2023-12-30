@@ -38,6 +38,13 @@ dependencies:
   google_maps_flutter: ^2.5.0
   location: ^5.0.3
   flutter_polyline_points: ^2.0.0
+  firebase_core: ^2.24.2
+  cloud_firestore: ^4.13.6
+  flutter_screenutil: ^5.9.0
+  lottie: ^2.7.0
+  outline_gradient_button: ^2.0.1+1
+  animated_check: ^1.0.5
+  flutter_animate: ^4.3.0
 
 dev_dependencies:
   flutter_test:
@@ -93,3 +100,4 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
   assets:
     - assets/themes/
+    - assets/animations/
