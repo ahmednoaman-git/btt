@@ -7,7 +7,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 class BusRoute extends StatefulWidget {
-  const BusRoute({super.key});
+  final List<LatLng> busAllStops;
+  const BusRoute({super.key, required this.busAllStops});
 
   @override
   State<BusRoute> createState() => _BusRouteState();
@@ -20,8 +21,13 @@ class _BusRouteState extends State<BusRoute> {
 
   Map<PolylineId, Polyline> polylines = {};
 
-  static const LatLng _pickUp = LatLng(30.0734, 31.2806);
-  static const LatLng _destination = LatLng(30.067486, 31.329847);
+  // static const List<LatLng> widget.busAllStops = [
+  //   LatLng(30.0734, 31.2806),
+  //   LatLng(30.080122, 31.316457),
+  //   LatLng(30.067486, 31.329847),
+  // ];
+  int count = 0;
+
   LatLng? _currentPosition;
 
   late String _darkMapStyle;
@@ -43,36 +49,46 @@ class _BusRouteState extends State<BusRoute> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: (_currentPosition == null)
-            ? const Center(child: CircularProgressIndicator())
-            : GoogleMap(
-                onMapCreated: (GoogleMapController controller) {
-                  _mapController.complete(controller);
-                  controller.setMapStyle(_darkMapStyle);
-                },
-                initialCameraPosition: const CameraPosition(
-                  target: _pickUp,
-                  zoom: 14,
-                ),
-                markers: {
-                  const Marker(
-                    markerId: MarkerId('pickup'),
-                    icon: BitmapDescriptor.defaultMarker,
-                    position: _pickUp,
-                  ),
-                  const Marker(
-                    markerId: MarkerId('_destination'),
-                    icon: BitmapDescriptor.defaultMarker,
-                    position: _destination,
-                  ),
-                  Marker(
-                    markerId: const MarkerId('current'),
-                    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-                    position: _currentPosition!,
-                  )
-                },
-                polylines: Set<Polyline>.of(polylines.values),
-              ),
+        body:
+            // (_currentPosition == null)
+            //     ? const Center(child: CircularProgressIndicator())
+            //     :
+            GoogleMap(
+          onMapCreated: (GoogleMapController controller) {
+            _mapController.complete(controller);
+            controller.setMapStyle(_darkMapStyle);
+          },
+          initialCameraPosition: CameraPosition(
+            target: widget.busAllStops[0],
+            zoom: 14,
+          ),
+          markers: {
+            Marker(
+              markerId: MarkerId('pickup'),
+              icon: BitmapDescriptor.defaultMarker,
+              position: widget.busAllStops[0],
+            ),
+            ...getOnlyStops().map((stop) {
+              count++;
+              return Marker(
+                markerId: MarkerId('stop $count'),
+                icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
+                position: stop,
+              );
+            }).toList(),
+            Marker(
+              markerId: MarkerId('_destination'),
+              icon: BitmapDescriptor.defaultMarker,
+              position: widget.busAllStops[widget.busAllStops.length - 1],
+            ),
+            // Marker(
+            //   markerId: const MarkerId('current'),
+            //   icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+            //   position: _currentPosition!,
+            // )
+          },
+          polylines: Set<Polyline>.of(polylines.values),
+        ),
       ),
     );
   }
@@ -101,31 +117,34 @@ class _BusRouteState extends State<BusRoute> {
         return;
       }
     }
-    _locationController.onLocationChanged.listen((LocationData currentlocation) {
-      if (currentlocation.longitude != null && currentlocation.latitude != null) {
-        setState(() {
-          _currentPosition = LatLng(currentlocation.latitude!, currentlocation.longitude!);
-          updateCameraPosition(_currentPosition!);
-        });
-      }
-    });
+    // _locationController.onLocationChanged.listen((LocationData currentlocation) {
+    //   if (currentlocation.longitude != null && currentlocation.latitude != null) {
+    //     setState(() {
+    //       _currentPosition = LatLng(currentlocation.latitude!, currentlocation.longitude!);
+    //       updateCameraPosition(_currentPosition!);
+    //     });
+    //   }
+    // });
   }
 
   Future<List<LatLng>> getPolyLinePoints() async {
     List<LatLng> polylinePoints = [];
     PolylinePoints polyPoints = PolylinePoints();
-    PolylineResult result = await polyPoints.getRouteBetweenCoordinates(
-      'AIzaSyB49dEcTb8Z1h1bvnCTaTt56ooJyFMPWLA',
-      PointLatLng(_pickUp.latitude, _pickUp.longitude),
-      PointLatLng(_destination.latitude, _destination.longitude),
-      travelMode: TravelMode.driving,
-    );
-    if (result.points.isNotEmpty) {
-      for (var polyPoint in result.points) {
-        polylinePoints.add(LatLng(polyPoint.latitude, polyPoint.longitude));
+    for (var i = 0; i < widget.busAllStops.length; i++) {
+      if (i == widget.busAllStops.length - 1) break;
+      PolylineResult result = await polyPoints.getRouteBetweenCoordinates(
+        'AIzaSyB49dEcTb8Z1h1bvnCTaTt56ooJyFMPWLA',
+        PointLatLng(widget.busAllStops[i].latitude, widget.busAllStops[i].longitude),
+        PointLatLng(widget.busAllStops[i + 1].latitude, widget.busAllStops[i + 1].longitude),
+        travelMode: TravelMode.driving,
+      );
+      if (result.points.isNotEmpty) {
+        for (var polyPoint in result.points) {
+          polylinePoints.add(LatLng(polyPoint.latitude, polyPoint.longitude));
+        }
+      } else {
+        debugPrint(' errorrrrrrrrrrrrrrrrrrrrrrrrrrrr : ${result.errorMessage}');
       }
-    } else {
-      debugPrint(' errorrrrrrrrrrrrrrrrrrrrrrrrrrrr : ${result.errorMessage}');
     }
     return polylinePoints;
   }
@@ -145,5 +164,12 @@ class _BusRouteState extends State<BusRoute> {
     setState(() {
       polylines[id] = polyline;
     });
+  }
+
+  List<LatLng> getOnlyStops() {
+    List<LatLng> onlyStops = [...widget.busAllStops];
+    onlyStops.removeAt(0);
+    onlyStops.removeAt(onlyStops.length - 1);
+    return onlyStops;
   }
 }
