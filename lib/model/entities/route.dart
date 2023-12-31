@@ -1,4 +1,5 @@
 import 'package:btt/model/entities/map_location.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Route {
   String id;
@@ -19,6 +20,15 @@ class Route {
       stops: json['stops'].map<MapLocation>((stop) => MapLocation.fromJson(stop)).toList(),
       start: MapLocation.fromJson(json['start']),
       end: MapLocation.fromJson(json['end']),
+    );
+  }
+
+  factory Route.fromDocumentSnapshot(DocumentSnapshot doc) {
+    return Route(
+      id: doc.id,
+      stops: doc['stops'].map<MapLocation>((stop) => MapLocation.fromJson(stop)).toList(),
+      start: MapLocation.fromJson(doc['start']),
+      end: MapLocation.fromJson(doc['end']),
     );
   }
 

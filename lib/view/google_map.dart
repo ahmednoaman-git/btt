@@ -67,7 +67,7 @@ class _BusRouteState extends State<BusRoute> {
             Marker(
               markerId: MarkerId('pickup'),
               icon: BitmapDescriptor.defaultMarker,
-              position: widget.busAllStops[0],
+              position: widget.busAllStops.first,
             ),
             ...getOnlyStops().map((stop) {
               count++;
@@ -80,7 +80,7 @@ class _BusRouteState extends State<BusRoute> {
             Marker(
               markerId: MarkerId('_destination'),
               icon: BitmapDescriptor.defaultMarker,
-              position: widget.busAllStops[widget.busAllStops.length - 1],
+              position: widget.busAllStops.last,
             ),
             // Marker(
             //   markerId: const MarkerId('current'),

@@ -36,7 +36,8 @@ class _LocationSelectorState extends State<LocationSelector> {
               _controller.complete(controller);
               controller.setMapStyle(_darkMapStyle);
             },
-            initialCameraPosition: _currentCameraPosition ?? const CameraPosition(target: LatLng(30.0734, 31.2806), zoom: 14),
+            initialCameraPosition: _currentCameraPosition ??
+                const CameraPosition(target: LatLng(30.0734, 31.2806), zoom: 14),
             zoomControlsEnabled: false,
             zoomGesturesEnabled: true,
             onCameraMove: (CameraPosition position) {
