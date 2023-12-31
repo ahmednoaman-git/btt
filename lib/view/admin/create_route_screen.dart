@@ -3,11 +3,12 @@ import 'package:btt/services/location_services.dart';
 import 'package:btt/tools/request_handler.dart';
 import 'package:btt/view/global/constants/text_styles.dart';
 import 'package:btt/view/widgets/action/main_button.dart';
-import 'package:btt/view/widgets/input/app_drop_down.dart';
 import 'package:btt/view/widgets/input/location_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../global/constants/colors.dart';
 
 class CreateRouteScreen extends StatefulWidget {
   const CreateRouteScreen({super.key});
@@ -23,6 +24,15 @@ class _CreateRouteScreenState extends State<CreateRouteScreen> {
   final TextEditingController _longitudeController = TextEditingController();
 
   bool _isLoading = false;
+  List<String> values = [
+    'Ahmed',
+    'Gamil',
+    'Fathy',
+    'Ibrahim',
+    'Khalil',
+    'Rabie',
+  ];
+  late List<MapLocation> locations;
 
   @override
   Widget build(BuildContext context) {
@@ -54,32 +64,41 @@ class _CreateRouteScreenState extends State<CreateRouteScreen> {
                   ),
                 ),
                 16.verticalSpace,
-                BTTDropdownButton(
-                  items: const {
-                    'key1': 'value1',
-                    'key2': 'value2',
-                    'key3': 'value3',
-                    'key4': 'value4',
-                  },
-                  onChanged: (value) {
-                    print(value);
-                  },
-                  icon: Icons.location_on,
-                  hint: 'start',
-                ),
-                16.verticalSpace,
-                BTTDropdownButton(
-                  items: const {
-                    'key1': 'value1',
-                    'key2': 'value2',
-                    'key3': 'value3',
-                    'key4': 'value4',
-                  },
-                  onChanged: (value) {
-                    print(value);
-                  },
-                  icon: Icons.location_on,
-                  hint: 'start',
+                Container(
+                  decoration: BoxDecoration(
+                      border: const Border.fromBorderSide(
+                        BorderSide(color: AppColors.elevationOne, width: 2),
+                      ),
+                      borderRadius: BorderRadius.circular(25.r)),
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                      canvasColor: AppColors.elevationOne,
+                      shadowColor: AppColors.darkElevation,
+                    ),
+                    child: ReorderableListView(
+                      padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
+                      shrinkWrap: true,
+                      children: values
+                          .map((value) => ClipRRect(
+                                key: ValueKey(value),
+                                borderRadius: BorderRadius.circular(25.r),
+                                child: ListTile(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(25.r)),
+                                    key: ValueKey(value),
+                                    title: Text(
+                                      value,
+                                      style: const TextStyle(
+                                        color: AppColors.grey,
+                                      ),
+                                    )),
+                              ))
+                          .toList(),
+                      onReorder: (oldIndex, newIndex) {
+                        rearrangeList(oldIndex, newIndex);
+                      },
+                    ),
+                  ),
                 ),
                 16.verticalSpace,
                 MainButton(
@@ -93,6 +112,12 @@ class _CreateRouteScreenState extends State<CreateRouteScreen> {
         ),
       ),
     );
+  }
+
+  void rearrangeList(int oldIndex, int newIndex) {
+    if (newIndex > oldIndex) newIndex--;
+    values.insert(newIndex, values.removeAt(oldIndex));
+    setState(() {});
   }
 
   Future<void> _createLocation() async {
