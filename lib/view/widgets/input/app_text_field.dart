@@ -15,6 +15,7 @@ class AppTextField extends StatefulWidget {
   final Widget? suffix;
   final Widget? prefixIcon;
   final bool enabled;
+  final Color fillColor;
 
   const AppTextField({
     super.key,
@@ -29,6 +30,7 @@ class AppTextField extends StatefulWidget {
     this.suffix,
     this.prefixIcon,
     this.enabled = true,
+    this.fillColor = AppColors.elevationOne,
   });
 
   @override
@@ -71,7 +73,7 @@ class _AppTextFieldState extends State<AppTextField> {
           borderRadius: BorderRadius.circular(100.r),
           borderSide: BorderSide.none,
         ),
-        fillColor: AppColors.elevationOne,
+        fillColor: widget.fillColor,
       ),
     );
   }

@@ -1,20 +1,31 @@
+import 'package:btt/model/entities/map_location.dart';
 import 'package:btt/model/entities/route.dart';
+import 'package:btt/services/location_services.dart';
 import 'package:btt/tools/firebase_instances.dart';
+import 'package:btt/tools/response.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../tools/response.dart';
-
 class RouteServices {
-  static Future<Response<List<Route>>> getRoutes() async {
+  static Future<Response<List<MapRoute>>> getRoutes() async {
     bool success = false;
-    final List<Route> routes = [];
+    final List<MapRoute> routes = [];
     await firestore
         .collection(
           'routes',
         )
         .get()
-        .then((value) {
-      routes.addAll([for (DocumentSnapshot doc in value.docs) Route.fromDocumentSnapshot(doc)]);
+        .then((value) async {
+      for (DocumentSnapshot doc in value.docs) {
+        final Response<List<MapLocation>> stopsResponse = await LocationServices.getLocationsFromIds((doc['stops'] as List<dynamic>).cast<String>());
+        if (!stopsResponse.success) {
+          success = false;
+          return Response.fail('Failed to get stops');
+        }
+        routes.add(MapRoute.fromListOfLocations(
+          doc.id,
+          stopsResponse.data!,
+        ));
+      }
       success = true;
     });
 
@@ -25,8 +36,7 @@ class RouteServices {
     }
   }
 
-  // Create route
-  static Future<Response<Route>> createRoute(Route route) async {
+  static Future<Response<MapRoute>> createRoute(MapRoute route) async {
     bool success = false;
     await firestore
         .collection(

@@ -25,6 +25,27 @@ class LocationServices {
     }
   }
 
+  static Future<Response<List<MapLocation>>> getLocationsFromIds(List<String> ids) async {
+    bool success = false;
+    final List<MapLocation> locations = [];
+    await firestore
+        .collection(
+          'locations',
+        )
+        .where(FieldPath.documentId, whereIn: ids)
+        .get()
+        .then((value) {
+      locations.addAll([for (DocumentSnapshot doc in value.docs) MapLocation.fromDocumentSnapshot(doc)]);
+      success = true;
+    });
+
+    if (success) {
+      return Response.success(locations);
+    } else {
+      return Response.fail('Failed to get locations');
+    }
+  }
+
   // Create location
   static Future<Response<MapLocation>> createLocation(MapLocation location) async {
     bool success = false;
