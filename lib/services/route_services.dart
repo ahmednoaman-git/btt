@@ -16,13 +16,16 @@ class RouteServices {
         .get()
         .then((value) async {
       for (DocumentSnapshot doc in value.docs) {
-        final Response<List<MapLocation>> stopsResponse = await LocationServices.getLocationsFromIds((doc['stops'] as List<dynamic>).cast<String>());
+        final Response<List<MapLocation>> stopsResponse =
+            await LocationServices.getLocationsFromIds(
+                (doc['stops'] as List<dynamic>).cast<String>());
         if (!stopsResponse.success) {
           success = false;
           return Response.fail('Failed to get stops');
         }
         routes.add(MapRoute.fromListOfLocations(
           doc.id,
+          doc['name'],
           stopsResponse.data!,
         ));
       }
@@ -33,6 +36,36 @@ class RouteServices {
       return Response.success(routes);
     } else {
       return Response.fail('Failed to get routes');
+    }
+  }
+
+  static Future<Response<MapRoute>> getRouteFromId(String id) async {
+    bool success = false;
+    late MapRoute route;
+    await firestore
+        .collection(
+          'routes',
+        )
+        .doc(id)
+        .get()
+        .then((doc) async {
+      final Response<List<MapLocation>> stopsResponse = await LocationServices.getLocationsFromIds(
+          (doc['stops'] as List<dynamic>).cast<String>());
+      if (!stopsResponse.success) {
+        success = false;
+        return Response.fail('Failed to get stops');
+      }
+      route = MapRoute.fromListOfLocations(
+        doc.id,
+        doc['name'],
+        stopsResponse.data!,
+      );
+      success = true;
+    });
+    if (success) {
+      return Response.success(route);
+    } else {
+      return Response.fail('Failed to get route');
     }
   }
 

@@ -14,6 +14,12 @@ class MapLocation {
     required this.longitude,
   });
 
+  static MapLocation emptyLocation() => MapLocation(
+        name: '',
+        latitude: 0,
+        longitude: 0,
+      );
+
   factory MapLocation.fromJson(Map<String, dynamic> json) {
     return MapLocation(
       id: json['id'],

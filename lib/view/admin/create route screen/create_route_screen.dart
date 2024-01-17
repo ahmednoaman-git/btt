@@ -23,6 +23,8 @@ class CreateRouteScreen extends StatefulWidget {
 
 class _CreateRouteScreenState extends State<CreateRouteScreen> {
   final TextEditingController _locationsSearchController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+
   final Future<Response<List<MapLocation>>> _locationsRequest = LocationServices.getLocations();
 
   bool _isLoading = false;
@@ -39,6 +41,8 @@ class _CreateRouteScreenState extends State<CreateRouteScreen> {
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Column(
             children: [
+              AppTextField(controller: _nameController, hintText: 'name'),
+              16.verticalSpace,
               MainButton(
                 text: 'Select Locations',
                 icon: Icon(Icons.list_rounded, color: AppColors.text, size: 20.r),
@@ -57,7 +61,8 @@ class _CreateRouteScreenState extends State<CreateRouteScreen> {
                             key: ValueKey(value),
                             borderRadius: BorderRadius.circular(25.r),
                             child: ListTile(
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.r)),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25.r)),
                                 key: ValueKey(value),
                                 title: Text(
                                   value.name,
@@ -179,6 +184,7 @@ class _CreateRouteScreenState extends State<CreateRouteScreen> {
       context: context,
       service: () => RouteServices.createRoute(
         MapRoute(
+          name: _nameController.text,
           stops: _selectedLocations,
           start: _selectedLocations.first,
           end: _selectedLocations.last,

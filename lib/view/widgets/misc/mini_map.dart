@@ -10,7 +10,12 @@ class MiniMap extends StatefulWidget {
   final bool isEditable;
   final double aspectRatio;
 
-  const MiniMap({super.key, required this.latitude, required this.longitude, this.isEditable = false, this.aspectRatio = 1.5});
+  const MiniMap(
+      {super.key,
+      required this.latitude,
+      required this.longitude,
+      this.isEditable = false,
+      this.aspectRatio = 1.5});
 
   @override
   State<MiniMap> createState() => _MiniMapState();

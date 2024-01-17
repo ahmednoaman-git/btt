@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'map_location.dart';
 
 class Bus {
@@ -7,6 +9,7 @@ class Bus {
   DateTime departureTime;
   BusStatus status;
   MapLocation currentLocation;
+  double fare;
 
   Bus({
     required this.id,
@@ -15,16 +18,25 @@ class Bus {
     required this.departureTime,
     required this.status,
     required this.currentLocation,
+    required this.fare,
   });
+
+  factory Bus.fromDocumentSnapshot(DocumentSnapshot doc) {
+    return Bus.fromJson({
+      'id': doc.id,
+      ...(doc as Map<String, dynamic>),
+    });
+  }
 
   factory Bus.fromJson(Map<String, dynamic> json) {
     return Bus(
       id: json['id'],
       identifier: json['identifier'],
       routeId: json['routeId'],
-      departureTime: DateTime.parse(json['departureTime']),
+      departureTime: (json['departureTime'] as Timestamp).toDate(),
       status: BusStatus.values[json['status']],
       currentLocation: MapLocation.fromJson(json['currentLocation']),
+      fare: json['fare'],
     );
   }
 
@@ -35,10 +47,13 @@ class Bus {
       'departureTime': departureTime.toIso8601String(),
       'status': status.index,
       'currentLocation': currentLocation.toJson(),
+      'fare': fare,
     };
   }
 }
 
 enum BusStatus {
-  test,
+  inStation,
+  operating,
+  outOfService,
 }

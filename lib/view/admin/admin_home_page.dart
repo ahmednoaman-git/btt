@@ -30,6 +30,13 @@ class AdminHomePage extends StatelessWidget {
                   Navigator.of(context).pushNamed('/CreateRoute');
                 },
               ),
+              16.verticalSpace,
+              MainButton(
+                text: 'Create Bus',
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/CreateBus');
+                },
+              )
             ],
           ),
         ),

@@ -59,6 +59,7 @@ class _BTTDropdownButtonState extends State<BTTDropdownButton> {
       value: widget.value,
       hint: Text(
         widget.loadingData ? widget.loadingText : widget.hint,
+        style: TextStyles.body.apply(color: AppColors.secondaryText),
       ),
       iconSize: 0,
       onChanged: widget.onChanged,
@@ -77,9 +78,16 @@ class _BTTDropdownButtonState extends State<BTTDropdownButton> {
           widget.icon,
         ),
         suffixIcon: widget.loadingData
-            ? Padding(
-                padding: EdgeInsets.only(left: 40.w),
-                child: const CircularProgressIndicator(),
+            ? IntrinsicHeight(
+                child: SizedBox(
+                  height: 10.h,
+                  width: 10.h,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 3.w,
+                    ),
+                  ),
+                ),
               )
             : const Icon(
                 Icons.arrow_drop_down_circle_rounded,
