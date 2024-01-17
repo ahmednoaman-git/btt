@@ -1,5 +1,7 @@
 import 'package:btt/services/route_services.dart';
 import 'package:btt/tools/firebase_options.dart';
+import 'package:btt/view/admin/admin_home_page.dart';
+import 'package:btt/view/admin/create%20location%20screen/create_location_screen.dart';
 import 'package:btt/view/admin/create%20route%20screen/create_route_screen.dart';
 import 'package:btt/view/global/constants/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -35,7 +37,11 @@ class MyApp extends StatelessWidget {
             elevation: 0,
           ),
         ),
-        home: const CreateRouteScreen(),
+        routes: {
+          '/CreateLocation': (context) => CreateLocationScreen(),
+          '/CreateRoute': (context) => CreateRouteScreen(),
+        },
+        home: const AdminHomePage(),
       ),
     );
   }
