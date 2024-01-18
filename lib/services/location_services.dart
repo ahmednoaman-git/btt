@@ -14,7 +14,8 @@ class LocationServices {
         )
         .get()
         .then((value) {
-      locations.addAll([for (DocumentSnapshot doc in value.docs) MapLocation.fromDocumentSnapshot(doc)]);
+      locations
+          .addAll([for (DocumentSnapshot doc in value.docs) MapLocation.fromDocumentSnapshot(doc)]);
       success = true;
     });
 
@@ -28,17 +29,26 @@ class LocationServices {
   static Future<Response<List<MapLocation>>> getLocationsFromIds(List<String> ids) async {
     bool success = false;
     final List<MapLocation> locations = [];
-    await firestore
-        .collection(
-          'locations',
-        )
-        .where(FieldPath.documentId, whereIn: ids)
-        .get()
-        .then((value) {
-      locations.addAll([for (DocumentSnapshot doc in value.docs) MapLocation.fromDocumentSnapshot(doc)]);
+    // await firestore
+    //     .collection(
+    //       'locations',
+    //     )
+    //     .where(FieldPath.documentId, whereIn: ids)
+    //     .get()
+    //     .then((value) {
+    //   locations
+    //       .addAll([for (DocumentSnapshot doc in value.docs) MapLocation.fromDocumentSnapshot(doc)]);
+    //   success = true;
+    // });
+    try {
+      for (String id in ids) {
+        DocumentSnapshot doc = await firestore.collection('locations').doc(id).get();
+        locations.add(MapLocation.fromDocumentSnapshot(doc));
+      }
       success = true;
-    });
-
+    } on Exception {
+      success = false;
+    }
     if (success) {
       return Response.success(locations);
     } else {

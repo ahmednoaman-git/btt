@@ -41,7 +41,11 @@ class _CreateRouteScreenState extends State<CreateRouteScreen> {
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Column(
             children: [
-              AppTextField(controller: _nameController, hintText: 'name'),
+              AppTextField(
+                controller: _nameController,
+                hintText: 'Name',
+                prefixIcon: const Icon(Icons.drive_file_rename_outline_outlined),
+              ),
               16.verticalSpace,
               MainButton(
                 text: 'Select Locations',
