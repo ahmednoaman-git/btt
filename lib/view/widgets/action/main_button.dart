@@ -11,7 +11,7 @@ class MainButton extends StatelessWidget {
   final bool shrinkWrap;
   final bool hollow;
   final bool loading;
-
+  final EdgeInsets? padding;
   const MainButton({
     super.key,
     required this.text,
@@ -20,6 +20,7 @@ class MainButton extends StatelessWidget {
     this.shrinkWrap = false,
     this.hollow = false,
     this.loading = false,
+    this.padding,
   });
 
   @override
@@ -30,10 +31,11 @@ class MainButton extends StatelessWidget {
         elevation: 0,
         radius: Radius.circular(100.r),
         strokeWidth: 2.w,
-        padding: EdgeInsets.symmetric(
-          vertical: shrinkWrap ? 0 : 15.9.h,
-          horizontal: shrinkWrap ? 20.w : 0.w,
-        ),
+        padding: padding ??
+            EdgeInsets.symmetric(
+              vertical: shrinkWrap ? 0 : 15.9.h,
+              horizontal: shrinkWrap ? 20.w : 0.w,
+            ),
         inkWell: true,
         gradient: LinearGradient(
           colors: onPressed == null
@@ -47,7 +49,7 @@ class MainButton extends StatelessWidget {
                 ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          stops: [0, 0.7],
+          stops: const [0, 0.7],
         ),
         child: loading
             ? Row(

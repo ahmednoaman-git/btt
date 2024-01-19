@@ -21,6 +21,16 @@ class Bus {
     required this.fare,
   });
 
+  static Bus emptyBus() => Bus(
+        id: '',
+        identifier: 'DummyBus',
+        routeId: '',
+        departureTime: DateTime.now(),
+        status: BusStatus.outOfService,
+        currentLocation: MapLocation.emptyLocation(),
+        fare: 0,
+      );
+
   factory Bus.fromDocumentSnapshot(DocumentSnapshot doc) {
     return Bus.fromJson({
       'id': doc.id,

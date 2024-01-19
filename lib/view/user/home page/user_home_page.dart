@@ -1,0 +1,50 @@
+import 'package:btt/view/global/constants/colors.dart';
+import 'package:btt/view/user/home%20page/components/user_preferences.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'components/pickup_destination_container.dart';
+
+class UserHomePage extends StatefulWidget {
+  const UserHomePage({super.key});
+
+  @override
+  State<UserHomePage> createState() => _UserHomePageState();
+}
+
+class _UserHomePageState extends State<UserHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.more_vert_rounded,
+              color: AppColors.text,
+            ),
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          child: Column(
+            children: [
+              const AspectRatio(
+                aspectRatio: 5 / 2,
+                child: PickUpDestContainer(),
+              ),
+              20.verticalSpace,
+              const AspectRatio(
+                aspectRatio: 7 / 5,
+                child: UserPreferences(),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -5,6 +5,7 @@ import 'package:btt/view/admin/create%20bus%20screen/create_bus_screen.dart';
 import 'package:btt/view/admin/create%20location%20screen/create_location_screen.dart';
 import 'package:btt/view/admin/create%20route%20screen/create_route_screen.dart';
 import 'package:btt/view/global/constants/colors.dart';
+import 'package:btt/view/user/home%20page/user_home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Bus Transit Transportation',
         theme: ThemeData(
+          fontFamily: 'Nunito',
           colorScheme: ColorScheme.fromSeed(seedColor: AppColors.accent1),
           scaffoldBackgroundColor: AppColors.background,
           useMaterial3: true,
@@ -39,11 +41,13 @@ class MyApp extends StatelessWidget {
           ),
         ),
         routes: {
+          '/AdminHome': (context) => const AdminHomePage(),
           '/CreateLocation': (context) => const CreateLocationScreen(),
           '/CreateRoute': (context) => const CreateRouteScreen(),
           '/CreateBus': (context) => const CreateBusScreen(),
+          '/UserHome': (context) => const UserHomePage(),
         },
-        home: const AdminHomePage(),
+        initialRoute: '/UserHome',
       ),
     );
   }

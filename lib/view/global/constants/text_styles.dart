@@ -9,9 +9,15 @@ class TextStyles {
     color: AppColors.text,
   );
 
-  static TextStyle title = TextStyle(
-    fontSize: 20.sp,
+  static TextStyle largeTitle = TextStyle(
+    fontSize: 26.sp,
     fontWeight: FontWeight.w600,
+    color: AppColors.text,
+  );
+
+  static TextStyle title = TextStyle(
+    fontSize: 21.sp,
+    fontWeight: FontWeight.w500,
     color: AppColors.text,
   );
 
@@ -26,11 +32,16 @@ class TextStyles {
     fontWeight: FontWeight.w500,
     color: AppColors.text,
   );
+  static TextStyle bodyThin = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w500,
+    color: AppColors.secondaryText,
+  );
 
   static TextStyle smallBody = TextStyle(
     fontSize: 14.sp,
     fontWeight: FontWeight.w500,
-    color: AppColors.text,
+    color: AppColors.secondaryText,
   );
 
   static TextStyle smallBodyThin = TextStyle(
