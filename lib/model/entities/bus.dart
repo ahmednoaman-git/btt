@@ -34,7 +34,7 @@ class Bus {
   factory Bus.fromDocumentSnapshot(DocumentSnapshot doc) {
     return Bus.fromJson({
       'id': doc.id,
-      ...(doc as Map<String, dynamic>),
+      ...(doc.data() as Map<String, dynamic>),
     });
   }
 
@@ -54,7 +54,7 @@ class Bus {
     return {
       'identifier': identifier,
       'routeId': routeId,
-      'departureTime': departureTime.toIso8601String(),
+      'departureTime': Timestamp.fromDate(departureTime),
       'status': status.index,
       'currentLocation': currentLocation.toJson(),
       'fare': fare,

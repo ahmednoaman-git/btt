@@ -10,7 +10,7 @@ class BusServices {
     final List<Bus> buses = [];
     await firestore
         .collection(
-          'Busses',
+          'busses',
         )
         .get()
         .then((value) {

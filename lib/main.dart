@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
           '/CreateBus': (context) => const CreateBusScreen(),
           '/UserHome': (context) => const UserHomePage(),
         },
-        initialRoute: '/Signup',
+        initialRoute: '/UserHome',
       ),
     );
   }

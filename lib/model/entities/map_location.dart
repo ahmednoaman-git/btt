@@ -22,7 +22,7 @@ class MapLocation {
 
   factory MapLocation.fromJson(Map<String, dynamic> json) {
     return MapLocation(
-      id: json['id'],
+      id: json['id'] ?? '',
       name: json['name'],
       latitude: json['latitude'],
       longitude: json['longitude'],
