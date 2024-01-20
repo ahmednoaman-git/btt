@@ -5,8 +5,8 @@ import 'package:btt/view/admin/create%20bus%20screen/create_bus_screen.dart';
 import 'package:btt/view/admin/create%20location%20screen/create_location_screen.dart';
 import 'package:btt/view/admin/create%20route%20screen/create_route_screen.dart';
 import 'package:btt/view/global/constants/colors.dart';
-import 'package:btt/view/screens/sign_up_page.dart';
 import 'package:btt/view/screens/sign_in.dart';
+import 'package:btt/view/screens/sign_up.dart';
 import 'package:btt/view/user/home%20page/user_home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -50,10 +50,8 @@ class MyApp extends StatelessWidget {
           '/CreateRoute': (context) => const CreateRouteScreen(),
           '/CreateBus': (context) => const CreateBusScreen(),
           '/UserHome': (context) => const UserHomePage(),
-
         },
         initialRoute: '/Signup',
-
       ),
     );
   }

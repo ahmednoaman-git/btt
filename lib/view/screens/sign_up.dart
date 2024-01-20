@@ -1,9 +1,9 @@
 import 'package:btt/view/global/constants/colors.dart';
 import 'package:btt/view/widgets/action/main_button.dart';
 import 'package:btt/view/widgets/input/app_text_field.dart';
+import 'package:btt/view/widgets/misc/social_media_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gradient_icon/gradient_icon.dart';
 
 import '../global/constants/text_styles.dart';
 
@@ -133,82 +133,36 @@ class _SignUpPageState extends State<SignUpPage> {
                       15.verticalSpace,
                       Text(
                         "OR",
-                        style: TextStyles.bodyThin,
+                        style: TextStyles.title.apply(
+                          color: AppColors.secondaryText,
+                          fontSizeDelta: -4,
+                        ),
                       ),
                       15.verticalSpace,
                       Container(
-                        color: AppColors.text,
-                        height: 0.5.h,
-                        width: 215.w,
-                      ),
+                          height: 0.5.h,
+                          width: 215.w,
+                          decoration: BoxDecoration(
+                            color: AppColors.secondaryText,
+                            borderRadius: BorderRadius.circular(10.r),
+                          )),
                       20.verticalSpace,
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 80.w),
+                        padding: EdgeInsets.symmetric(horizontal: 60.w),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Container(
-                              width: 40.w,
-                              height: 40.h,
-                              decoration: BoxDecoration(
-                                color: AppColors.elevationOne,
-                                borderRadius: BorderRadius.circular(10.r),
-                                // gradient: LinearGradient(colors: [
-                                //   AppColors.accent1,
-                                //   AppColors.accent2
-                                // ]),
-                              ),
-                              child: GradientIcon(
-                                offset: const Offset(5, 5),
-                                icon: Icons.facebook_rounded,
-                                size: 30.sp,
-                                gradient: const LinearGradient(colors: [
-                                  AppColors.accent1,
-                                  AppColors.accent2
-                                ]),
-                              ),
+                            SocialMediaButton(
+                              icon: Icons.facebook_rounded,
+                              onPressed: () {},
                             ),
-                            Container(
-                              width: 40.w,
-                              height: 40.h,
-                              decoration: BoxDecoration(
-                                color: AppColors.elevationOne,
-                                borderRadius: BorderRadius.circular(10.r),
-                                // gradient: LinearGradient(colors: [
-                                //   AppColors.accent1,
-                                //   AppColors.accent2
-                                // ]),
-                              ),
-                              child: GradientIcon(
-                                offset: const Offset(5, 5),
-                                icon: Icons.apple_rounded,
-                                size: 30.sp,
-                                gradient: const LinearGradient(colors: [
-                                  AppColors.accent1,
-                                  AppColors.accent2
-                                ]),
-                              ),
+                            SocialMediaButton(
+                              icon: Icons.apple_rounded,
+                              onPressed: () {},
                             ),
-                            Container(
-                              width: 40.w,
-                              height: 40.h,
-                              decoration: BoxDecoration(
-                                color: AppColors.elevationOne,
-                                borderRadius: BorderRadius.circular(10.r),
-                                // gradient: LinearGradient(colors: [
-                                //   AppColors.accent1,
-                                //   AppColors.accent2
-                                // ]),
-                              ),
-                              child: GradientIcon(
-                                offset: const Offset(5, 5),
-                                icon: Icons.phone,
-                                size: 30.sp,
-                                gradient: const LinearGradient(colors: [
-                                  AppColors.accent1,
-                                  AppColors.accent2
-                                ]),
-                              ),
+                            SocialMediaButton(
+                              icon: Icons.phone_rounded,
+                              onPressed: () {},
                             ),
                           ],
                         ),
