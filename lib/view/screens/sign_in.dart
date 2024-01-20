@@ -49,7 +49,10 @@ class _SignInState extends State<SignIn> {
                   AppTextField(
                     controller: emailCtrl,
                     hintText: 'Email',
-                    prefixIcon: const Icon(Icons.email_rounded),
+                    prefixIcon: const Icon(
+                      Icons.email_rounded,
+                      color: AppColors.text,
+                    ),
                     validator: (value) {
                       if (value == '') {
                         return 'required';
@@ -61,7 +64,10 @@ class _SignInState extends State<SignIn> {
                   AppTextField(
                       controller: passCtrl,
                       hintText: 'Password',
-                      prefixIcon: const Icon(Icons.lock_rounded),
+                      prefixIcon: const Icon(
+                        Icons.lock_rounded,
+                        color: AppColors.text,
+                      ),
                       validator: (value) {
                         if (value == '') {
                           return 'required';
