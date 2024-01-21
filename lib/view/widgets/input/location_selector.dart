@@ -44,7 +44,8 @@ class _LocationSelectorState extends State<LocationSelector> {
               _currentCameraPosition = position;
             },
             onCameraIdle: () {
-              widget.onLocationSelected?.call(_currentCameraPosition!.target);
+              widget.onLocationSelected
+                  ?.call(_currentCameraPosition?.target ?? const LatLng(30.0734, 31.2806));
             },
           ),
           Positioned(

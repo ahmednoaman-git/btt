@@ -1,4 +1,5 @@
 import 'package:btt/model/entities/bus.dart';
+import 'package:btt/view/user/Bus%20Route%20Screen/bus_route_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gradient_icon/gradient_icon.dart';
@@ -13,7 +14,11 @@ class BusTileButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => BusRouteScreen(bus: bus)),
+        );
+      },
       child: Row(
         children: [
           const GradientIcon(

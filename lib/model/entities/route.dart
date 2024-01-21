@@ -48,7 +48,8 @@ class MapRoute {
 
   Map<String, dynamic> toJson() {
     return {
-      'stops': stops.map((stop) => '${stops.indexOf(stop)}.${stop.id}').toList(),
+      'name': name,
+      'stops': stops.map((stop) => stop.id).toList(),
       'start': start.id,
       'end': end.id,
     };

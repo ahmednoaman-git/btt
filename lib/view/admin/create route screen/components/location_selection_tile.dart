@@ -10,7 +10,8 @@ class LocationSelectionTile extends StatelessWidget {
   final bool isSelected;
   final MapLocation location;
   final void Function() onTap;
-  const LocationSelectionTile({super.key, required this.isSelected, required this.location, required this.onTap});
+  const LocationSelectionTile(
+      {super.key, required this.isSelected, required this.location, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class LocationSelectionTile extends StatelessWidget {
           child: InkWell(
             onTap: onTap,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
               child: Column(
                 children: [
                   Row(
