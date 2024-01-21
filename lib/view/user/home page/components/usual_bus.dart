@@ -107,7 +107,7 @@ class _UsualBusContainerState extends State<UsualBusContainer> {
           borderRadius: BorderRadius.circular(20.r),
           gradient: RadialGradient(
             center: Alignment.topLeft,
-            radius: 2.7,
+            radius: 2.7.r,
             colors: [
               AppColors.accent1.withOpacity(0.45),
               AppColors.accent2.withOpacity(0.12),
@@ -137,7 +137,7 @@ class _UsualBusContainerState extends State<UsualBusContainer> {
               ),
               GradientCircularProgressIndicator(
                 progress: 0.6,
-                stroke: 6,
+                stroke: 6.w,
                 gradient: const LinearGradient(
                   colors: [AppColors.accent1, AppColors.accent2],
                   begin: Alignment.topLeft,

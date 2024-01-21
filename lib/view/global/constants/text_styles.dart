@@ -29,12 +29,12 @@ class TextStyles {
 
   static TextStyle body = TextStyle(
     fontSize: 16.sp,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w400,
     color: AppColors.text,
   );
   static TextStyle bodyThin = TextStyle(
     fontSize: 16.sp,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w400,
     color: AppColors.secondaryText,
   );
 

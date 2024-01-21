@@ -1,4 +1,5 @@
 import 'package:btt/view/global/constants/colors.dart';
+import 'package:btt/view/user/home%20page/components/recent_trips.dart';
 import 'package:btt/view/user/home%20page/components/user_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,6 +17,7 @@ class _UserHomePageState extends State<UserHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
         actions: [
           IconButton(
@@ -41,6 +43,8 @@ class _UserHomePageState extends State<UserHomePage> {
                 aspectRatio: 7 / 5,
                 child: UserPreferences(),
               ),
+              20.verticalSpace,
+              const RecentTripsContainer()
             ],
           ),
         ),

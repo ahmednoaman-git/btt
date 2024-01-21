@@ -1,3 +1,8 @@
+import 'package:btt/view/global/constants/colors.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gradient_icon/gradient_icon.dart';
+
 class TraversedRoute {
   String id;
   double startLatitude;
@@ -61,4 +66,72 @@ enum RouteType {
   bus,
   metro,
   walk,
+}
+
+GradientIcon getIconForRouteType(RouteType type) {
+  switch (type) {
+    case RouteType.bus:
+      return GradientIcon(
+        offset: const Offset(0, 0),
+        icon: Icons.directions_bus_rounded,
+        size: 25.sp,
+        gradient: getGradient(RouteType.bus),
+      );
+    case RouteType.metro:
+      return GradientIcon(
+        offset: const Offset(0, 0),
+        size: 25.sp,
+        gradient: getGradient(RouteType.metro),
+        icon: Icons.train_rounded,
+      );
+    case RouteType.walk:
+      return GradientIcon(
+        offset: const Offset(0, 0),
+        icon: Icons.directions_walk,
+        size: 25.sp,
+        gradient: getGradient(RouteType.walk),
+      );
+    default:
+      return GradientIcon(
+        offset: const Offset(0, 0),
+        icon: Icons.directions_walk,
+        size: 25.sp,
+        gradient: getGradient(RouteType.walk),
+      );
+  }
+}
+
+Gradient getGradient(RouteType routeType) {
+  switch (routeType) {
+    case RouteType.walk:
+      return const LinearGradient(
+        colors: [
+          Colors.white,
+          Colors.white,
+        ],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        stops: [0, 0.7],
+      );
+    case RouteType.bus:
+      return const LinearGradient(
+        colors: [
+          AppColors.accent1,
+          AppColors.accent2,
+        ],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        stops: [0, 0.7],
+      );
+    case RouteType.metro:
+      return const LinearGradient(
+        colors: [
+          Color(0xFF2A803D),
+          Color(0xFF74B883),
+        ],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        stops: [0, 0.7],
+      );
+  }
 }
