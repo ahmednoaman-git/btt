@@ -8,14 +8,17 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class LocationSelector extends StatefulWidget {
   final void Function(LatLng)? onLocationSelected;
-  const LocationSelector({super.key, this.onLocationSelected});
+  final void Function(GoogleMapController)? onControllerCreated;
+  const LocationSelector(
+      {super.key, this.onLocationSelected, this.onControllerCreated});
 
   @override
   State<LocationSelector> createState() => _LocationSelectorState();
 }
 
 class _LocationSelectorState extends State<LocationSelector> {
-  final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
   late String _darkMapStyle;
   CameraPosition? _currentCameraPosition;
 
@@ -34,18 +37,20 @@ class _LocationSelectorState extends State<LocationSelector> {
           GoogleMap(
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
+              widget.onControllerCreated?.call(controller);
               controller.setMapStyle(_darkMapStyle);
             },
             initialCameraPosition: _currentCameraPosition ??
-                const CameraPosition(target: LatLng(30.0734, 31.2806), zoom: 14),
+                const CameraPosition(
+                    target: LatLng(30.0734, 31.2806), zoom: 14),
             zoomControlsEnabled: false,
             zoomGesturesEnabled: true,
             onCameraMove: (CameraPosition position) {
               _currentCameraPosition = position;
             },
             onCameraIdle: () {
-              widget.onLocationSelected
-                  ?.call(_currentCameraPosition?.target ?? const LatLng(30.0734, 31.2806));
+              widget.onLocationSelected?.call(_currentCameraPosition?.target ??
+                  const LatLng(30.0734, 31.2806));
             },
           ),
           Positioned(
