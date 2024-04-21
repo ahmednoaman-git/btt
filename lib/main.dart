@@ -7,8 +7,9 @@ import 'package:btt/view/admin/create%20route%20screen/create_route_screen.dart'
 import 'package:btt/view/global/constants/colors.dart';
 import 'package:btt/view/screens/sign_in.dart';
 import 'package:btt/view/screens/sign_up.dart';
-import 'package:btt/view/user/Adding%20Location%20Screen/current_location_screen.dart';
 import 'package:btt/view/user/home%20page/user_home_page.dart';
+import 'package:btt/view/user/select%20route%20screens/current_location_screen.dart';
+import 'package:btt/view/user/select%20route%20screens/final_route_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -52,8 +53,9 @@ class MyApp extends StatelessWidget {
           '/CreateBus': (context) => const CreateBusScreen(),
           '/UserHome': (context) => const UserHomePage(),
           '/MapSelector': (context) => const CurrentLocationScreen(),
+          '/FinalRoute': (context) => const FinalRouteScreen(),
         },
-        initialRoute: '/UserHome',
+        initialRoute: '/FinalRoute',
       ),
     );
   }
