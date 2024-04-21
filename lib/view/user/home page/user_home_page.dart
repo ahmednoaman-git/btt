@@ -14,6 +14,8 @@ class UserHomePage extends StatefulWidget {
 }
 
 class _UserHomePageState extends State<UserHomePage> {
+  TextEditingController pickUpCtrl = TextEditingController();
+  TextEditingController destinationCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,9 +36,17 @@ class _UserHomePageState extends State<UserHomePage> {
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Column(
             children: [
-              const AspectRatio(
-                aspectRatio: 5 / 2,
-                child: PickUpDestContainer(),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed('/MapSelector');
+                },
+                child: Hero(
+                  tag: 'cont',
+                  child: PickUpDestContainer(
+                    pickUpCtrl: pickUpCtrl,
+                    destinationCtrl: destinationCtrl,
+                  ),
+                ),
               ),
               20.verticalSpace,
               const AspectRatio(
