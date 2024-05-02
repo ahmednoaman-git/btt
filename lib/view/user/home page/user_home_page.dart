@@ -36,15 +36,19 @@ class _UserHomePageState extends State<UserHomePage> {
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Column(
             children: [
+              /// endpoint: https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=YOUR_API_KEY
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).pushNamed('/MapSelector');
                 },
                 child: Hero(
                   tag: 'cont',
-                  child: PickUpDestContainer(
-                    pickUpCtrl: pickUpCtrl,
-                    destinationCtrl: destinationCtrl,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: PickUpDestContainer(
+                      pickUpCtrl: pickUpCtrl,
+                      destinationCtrl: destinationCtrl,
+                    ),
                   ),
                 ),
               ),

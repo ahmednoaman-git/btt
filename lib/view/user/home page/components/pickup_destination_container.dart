@@ -7,7 +7,8 @@ class PickUpDestContainer extends StatefulWidget {
   final TextEditingController pickUpCtrl;
   final TextEditingController destinationCtrl;
   final double opacity;
-  const PickUpDestContainer({
+
+  PickUpDestContainer({
     super.key,
     this.opacity = 1,
     required this.pickUpCtrl,
@@ -36,12 +37,15 @@ class _PickUpDestContainerState extends State<PickUpDestContainer> {
             hintText: 'Current Location',
             prefixIcon: const Icon(Icons.location_on),
           ),
-          SizedBox(height: 22.h),
+          SizedBox(height: 5.h,),
+          SizedBox(
+            height: 10.h,
+          ),
           AppTextField(
             controller: widget.destinationCtrl,
             hintText: 'Destination',
             prefixIcon: const Icon(Icons.search_rounded),
-          )
+          ),
         ],
       ),
     );
