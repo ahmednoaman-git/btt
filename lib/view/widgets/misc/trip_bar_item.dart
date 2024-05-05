@@ -38,7 +38,7 @@ class _TripBarItemState extends State<TripBarItem> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    getIconForRouteType(widget.routeType),
+                    getIconForRouteType(widget.routeType, 25.sp),
                   ],
                 ),
                 5.verticalSpace,

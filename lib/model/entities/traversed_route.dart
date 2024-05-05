@@ -68,19 +68,19 @@ enum RouteType {
   walk,
 }
 
-GradientIcon getIconForRouteType(RouteType type) {
+GradientIcon getIconForRouteType(RouteType type, double iconSize) {
   switch (type) {
     case RouteType.bus:
       return GradientIcon(
         offset: const Offset(0, 0),
         icon: Icons.directions_bus_rounded,
-        size: 25.sp,
+        size: iconSize,
         gradient: getGradient(RouteType.bus),
       );
     case RouteType.metro:
       return GradientIcon(
         offset: const Offset(0, 0),
-        size: 25.sp,
+        size: iconSize,
         gradient: getGradient(RouteType.metro),
         icon: Icons.train_rounded,
       );
@@ -88,14 +88,14 @@ GradientIcon getIconForRouteType(RouteType type) {
       return GradientIcon(
         offset: const Offset(0, 0),
         icon: Icons.directions_walk,
-        size: 25.sp,
+        size: iconSize,
         gradient: getGradient(RouteType.walk),
       );
     default:
       return GradientIcon(
         offset: const Offset(0, 0),
         icon: Icons.directions_walk,
-        size: 25.sp,
+        size: iconSize,
         gradient: getGradient(RouteType.walk),
       );
   }
