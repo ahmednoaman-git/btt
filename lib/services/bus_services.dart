@@ -69,7 +69,7 @@ class BusServices {
   }
 
   static Future<Response<List<Bus>>> getBussesThatPassByStationLocation(MapLocation location) async {
-    final List<MapRoute> routes = (await RouteServices.getRoutesThatIncludeLocation(location.id)).data ?? [];
+    final List<MapRoute> routes = ((await RouteServices.getRoutesThatIncludeLocation(location.id)) as Response).data ?? [];
 
     final List<Bus> busses = [];
     for (final MapRoute route in routes) {
@@ -82,7 +82,7 @@ class BusServices {
 
   // Get busses that pass by multiple locations (Each bus must pass through all of them)
   static Future<Response<List<Bus>>> getBussesThatPassByTwoLocations(String locationOneId, String locationTwoId) async {
-    final List<MapRoute> routes = (await RouteServices.getRoutesThatIncludeTwoLocations(locationOneId, locationTwoId)).data ?? [];
+    final List<MapRoute> routes = ((await RouteServices.getRoutesThatIncludeTwoLocations(locationOneId, locationTwoId)) as Response).data ?? [];
 
     final List<Bus> busses = [];
     for (final MapRoute route in routes) {
