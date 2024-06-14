@@ -1,5 +1,6 @@
-import 'package:btt/services/route_services.dart';
+import 'package:btt/services/location_services.dart';
 import 'package:btt/tools/firebase_options.dart';
+import 'package:btt/tools/response.dart';
 import 'package:btt/view/admin/admin_home_page.dart';
 import 'package:btt/view/admin/create%20bus%20screen/create_bus_screen.dart';
 import 'package:btt/view/admin/create%20location%20screen/create_location_screen.dart';
@@ -12,12 +13,32 @@ import 'package:btt/view/user/home%20page/user_home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hive_flutter/adapters.dart';
+
+import 'model/entities/map_location.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  RouteServices.getRoutes();
+  await Hive.initFlutter();
   runApp(const MyApp());
+}
+
+Future<MapLocation?> getNearestRegisteredLocation(LatLng targetLocation) async {
+  final List<MapLocation> locations = ((await LocationServices.getLocations()) as Response<List<MapLocation>>).data ?? [];
+  double minDistance = double.infinity;
+  MapLocation? nearestLocation;
+
+  for (final MapLocation location in locations) {
+    final double distance = location.distanceToLocationFromLatLng(targetLocation);
+    if (distance < minDistance) {
+      minDistance = distance;
+      nearestLocation = location;
+    }
+  }
+
+  return nearestLocation;
 }
 
 class MyApp extends StatelessWidget {

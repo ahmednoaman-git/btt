@@ -12,6 +12,7 @@ class MainButton extends StatelessWidget {
   final bool hollow;
   final bool loading;
   final EdgeInsets? padding;
+  final Color? color;
   const MainButton({
     super.key,
     required this.text,
@@ -21,6 +22,7 @@ class MainButton extends StatelessWidget {
     this.hollow = false,
     this.loading = false,
     this.padding,
+    this.color,
   });
 
   @override
@@ -40,12 +42,12 @@ class MainButton extends StatelessWidget {
         gradient: LinearGradient(
           colors: onPressed == null
               ? [
-                  AppColors.secondaryText,
-                  AppColors.secondaryText,
+                  color ?? AppColors.secondaryText,
+                  color ?? AppColors.secondaryText,
                 ]
               : [
-                  AppColors.accent1,
-                  AppColors.accent2,
+                  color ?? AppColors.accent1,
+                  color ?? AppColors.accent2,
                 ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -86,10 +88,10 @@ class MainButton extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(100.r),
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           colors: [
-            AppColors.accent1,
-            AppColors.accent2,
+            color ?? AppColors.accent1,
+            color ?? AppColors.accent2,
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,

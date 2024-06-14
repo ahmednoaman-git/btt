@@ -1,13 +1,12 @@
 import 'dart:async';
 
 import 'package:btt/view/global/constants/colors.dart';
+import 'package:btt/view/widgets/action/main_button.dart';
 import 'package:btt/view/widgets/input/location_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-
-import '../home page/components/pickup_destination_container.dart';
 
 class CurrentLocationScreen extends StatefulWidget {
   const CurrentLocationScreen({super.key});
@@ -19,8 +18,16 @@ class CurrentLocationScreen extends StatefulWidget {
 class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
   TextEditingController pickUpCtrl = TextEditingController();
   TextEditingController destinationCtrl = TextEditingController();
+
+  LatLng? pickUpLocation;
+  LatLng? destinationLocation;
+  LatLng? lastHoveredLocation;
+
   final _locationController = Location();
   late final GoogleMapController _mapController;
+
+  bool? pickUpSelectedForInput;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,8 +35,7 @@ class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
         children: [
           LocationSelector(
             onLocationSelected: (LatLng location) {
-              pickUpCtrl.text = location.toString();
-              // debugPrint(location.toString());
+              lastHoveredLocation = location;
             },
             onControllerCreated: (GoogleMapController mapController) {
               _mapController = mapController;
@@ -44,8 +50,8 @@ class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
-                    height: 80.r,
-                    width: 80.r,
+                    height: 70.r,
+                    width: 70.r,
                     child: FloatingActionButton(
                       backgroundColor: AppColors.darkElevation.withOpacity(0.9),
                       shape: const CircleBorder(),
@@ -54,8 +60,7 @@ class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
                         if (!granted) {
                           return;
                         }
-                        LocationData userLocation =
-                            await _locationController.getLocation();
+                        LocationData userLocation = await _locationController.getLocation();
                         // destinationCtrl.text = userLocation.latitude.toString();
                         _mapController.animateCamera(
                           CameraUpdate.newLatLngZoom(
@@ -70,19 +75,54 @@ class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
                       child: Icon(
                         Icons.my_location,
                         color: Colors.white,
-                        size: 40.r,
+                        size: 35.r,
                       ),
                     ),
                   ),
                   22.verticalSpace,
-                  Hero(
-                    tag: 'cont',
-                    child: PickUpDestContainer(
-                      opacity: 0.95,
-                      pickUpCtrl: pickUpCtrl,
-                      destinationCtrl: destinationCtrl,
-                    ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: MainButton(
+                          text: (pickUpSelectedForInput ?? false) ? 'Done' : 'Set Pick Up',
+                          color: (pickUpSelectedForInput ?? false) ? AppColors.accent1 : AppColors.darkElevation.withOpacity(0.9),
+                          onPressed: () {
+                            if (!(pickUpSelectedForInput ?? false)) {
+                              setState(() {
+                                pickUpSelectedForInput = true;
+                              });
+                            } else {
+                              pickUpLocation = lastHoveredLocation;
+                            }
+                          },
+                        ),
+                      ),
+                      22.horizontalSpace,
+                      Expanded(
+                        child: MainButton(
+                          text: (pickUpSelectedForInput ?? true) ? 'Set Destination' : 'Done',
+                          color: (pickUpSelectedForInput ?? true) ? AppColors.darkElevation.withOpacity(0.9) : AppColors.accent1,
+                          onPressed: () {
+                            if ((pickUpSelectedForInput ?? true)) {
+                              setState(() {
+                                pickUpSelectedForInput = false;
+                              });
+                            } else {
+                              destinationLocation = lastHoveredLocation;
+                            }
+                          },
+                        ),
+                      ),
+                    ],
                   ),
+                  22.verticalSpace,
+                  MainButton(
+                      text: 'Continue',
+                      onPressed: () {
+                        print('Pick Up: $pickUpLocation');
+                        print('Destination: $destinationLocation');
+                      }),
+                  22.verticalSpace,
                 ],
               ),
             ),

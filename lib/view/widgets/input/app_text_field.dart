@@ -9,6 +9,7 @@ class AppTextField extends StatefulWidget {
   final String? Function(String?)? validator;
   final void Function(String?)? onChanged;
   final void Function()? onEditingComplete;
+  final void Function()? onTap;
   final bool? obscureText;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
@@ -24,6 +25,7 @@ class AppTextField extends StatefulWidget {
     this.validator,
     this.onChanged,
     this.onEditingComplete,
+    this.onTap,
     this.obscureText = false,
     this.keyboardType,
     this.textInputAction,
@@ -48,6 +50,7 @@ class _AppTextFieldState extends State<AppTextField> {
       validator: widget.validator,
       onChanged: widget.onChanged,
       onEditingComplete: widget.onEditingComplete,
+      onTap: widget.onTap,
       obscureText: widget.obscureText!,
       keyboardType: widget.keyboardType,
       textInputAction: widget.textInputAction,
