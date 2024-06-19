@@ -3,9 +3,14 @@ import 'package:btt/view/global/constants/text_styles.dart';
 import 'package:btt/view/widgets/action/main_button.dart';
 import 'package:btt/view/widgets/input/app_text_field.dart';
 import 'package:btt/view/widgets/misc/social_media_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gradient_icon/gradient_icon.dart';
+import 'package:provider/provider.dart';
+
+import '../../model/entities/app_user.dart';
+import '../../providers/user_provider.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -99,7 +104,28 @@ class _SignInState extends State<SignIn> {
                     child: MainButton(
                       text: 'Sign in',
                       padding: EdgeInsets.symmetric(vertical: 30.h),
-                      onPressed: () {},
+                      onPressed: () {
+                        {
+                          if (!formKey.currentState!.validate()) return;
+                          FirebaseAuth.instance
+                              .signInWithEmailAndPassword(
+                            email: emailCtrl.text,
+                            password: passCtrl.text,
+                          )
+                              .then((userCredentials) {
+                            context.read<UserProvider>().setUser(
+                                  AppUser(
+                                    id: userCredentials.user!.uid,
+                                    name: userCredentials.user!.displayName!,
+                                    email: userCredentials.user!.email!,
+                                  ),
+                                );
+                            Navigator.of(context).pushNamed('/UserHome');
+                          }).onError((error, _) {
+                            debugPrint(error.toString());
+                          });
+                        }
+                      },
                     ),
                   ),
                   10.verticalSpace,

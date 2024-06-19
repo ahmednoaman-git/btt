@@ -1,9 +1,14 @@
+import 'package:btt/functions/validators.dart';
+import 'package:btt/model/entities/app_user.dart';
+import 'package:btt/providers/user_provider.dart';
 import 'package:btt/view/global/constants/colors.dart';
 import 'package:btt/view/widgets/action/main_button.dart';
 import 'package:btt/view/widgets/input/app_text_field.dart';
 import 'package:btt/view/widgets/misc/social_media_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../global/constants/text_styles.dart';
 
@@ -21,7 +26,6 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController passwordCTRL = TextEditingController();
   final TextEditingController confPasswordCTRL = TextEditingController();
   final TextEditingController phoneCTRL = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +49,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ],
                 ),
-                30.verticalSpace,
+                20.verticalSpace,
                 Form(
                   key: _formKey,
                   child: Column(
@@ -57,14 +61,9 @@ class _SignUpPageState extends State<SignUpPage> {
                           color: AppColors.text,
                         ),
                         hintText: 'Name',
-                        validator: (value) {
-                          if (value == null || value == '') {
-                            return 'Required';
-                          }
-                          return null;
-                        },
+                        validator: Validators.nameValidator,
                       ),
-                      30.verticalSpace,
+                      20.verticalSpace,
                       AppTextField(
                         controller: emailCTRL,
                         prefixIcon: const Icon(
@@ -79,7 +78,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           return null;
                         },
                       ),
-                      30.verticalSpace,
+                      20.verticalSpace,
                       AppTextField(
                         controller: passwordCTRL,
                         prefixIcon: const Icon(
@@ -87,14 +86,9 @@ class _SignUpPageState extends State<SignUpPage> {
                           color: AppColors.text,
                         ),
                         hintText: 'Password',
-                        validator: (value) {
-                          if (value == null || value == '') {
-                            return 'Required';
-                          }
-                          return null;
-                        },
+                        validator: Validators.passwordValidator,
                       ),
-                      30.verticalSpace,
+                      20.verticalSpace,
                       AppTextField(
                         controller: confPasswordCTRL,
                         prefixIcon: const Icon(
@@ -109,7 +103,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           return null;
                         },
                       ),
-                      30.verticalSpace,
+                      20.verticalSpace,
                       AppTextField(
                         controller: phoneCTRL,
                         prefixIcon: const Icon(
@@ -125,10 +119,59 @@ class _SignUpPageState extends State<SignUpPage> {
                           return null;
                         },
                       ),
-                      30.verticalSpace,
+                      10.verticalSpace,
+                      Row(
+                        children: [
+                          Text(
+                            'Already have an account?',
+                            style: TextStyles.body.apply(
+                              color: AppColors.secondaryText,
+                              fontWeightDelta: -1,
+                              decorationColor: AppColors.secondaryText,
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/SignIn');
+                            },
+                            child: const Text(
+                              'Sign In',
+                            ),
+                          )
+                        ],
+                      ),
+                      20.verticalSpace,
                       SizedBox(
                         width: 200.w,
-                        child: MainButton(onPressed: () {}, text: "Submit"),
+                        child: MainButton(
+                          onPressed: () {
+                            if (!_formKey.currentState!.validate()) return;
+                            if (passwordCTRL.text != confPasswordCTRL.text) {
+                              debugPrint('Passwords are not the same..');
+                              return;
+                            }
+                            FirebaseAuth.instance
+                                .createUserWithEmailAndPassword(
+                              email: emailCTRL.text,
+                              password: passwordCTRL.text,
+                            )
+                                .then((userCredentials) {
+                              userCredentials.user!.updateDisplayName(nameCTRL.text);
+
+                              context.read<UserProvider>().setUser(
+                                    AppUser(
+                                      id: userCredentials.user!.uid,
+                                      name: nameCTRL.text,
+                                      email: userCredentials.user!.email!,
+                                    ),
+                                  );
+                              Navigator.of(context).pushNamed('/UserHome');
+                            }).onError((error, _) {
+                              debugPrint(error.toString());
+                            });
+                          },
+                          text: "Submit",
+                        ),
                       ),
                       15.verticalSpace,
                       Text(
