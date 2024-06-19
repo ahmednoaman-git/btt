@@ -1,4 +1,5 @@
 import 'package:btt/cache/cache_manager.dart';
+import 'package:btt/providers/user_provider.dart';
 import 'package:btt/services/location_services.dart';
 import 'package:btt/tools/firebase_options.dart';
 import 'package:btt/tools/response.dart';
@@ -7,6 +8,7 @@ import 'package:btt/view/admin/create%20bus%20screen/create_bus_screen.dart';
 import 'package:btt/view/admin/create%20location%20screen/create_location_screen.dart';
 import 'package:btt/view/admin/create%20route%20screen/create_route_screen.dart';
 import 'package:btt/view/global/constants/colors.dart';
+import 'package:btt/view/screens/landing_screen.dart';
 import 'package:btt/view/screens/sign_in.dart';
 import 'package:btt/view/screens/sign_up.dart';
 import 'package:btt/view/user/Adding%20Location%20Screen/current_location_screen.dart';
@@ -53,6 +55,7 @@ class MyApp extends StatelessWidget {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => CacheManager()..init()),
+          ChangeNotifierProvider(create: (_) => UserProvider()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -80,8 +83,9 @@ class MyApp extends StatelessWidget {
             '/CreateBus': (context) => const CreateBusScreen(),
             '/UserHome': (context) => const UserHomePage(),
             '/MapSelector': (context) => const CurrentLocationScreen(),
+            '/LandingScreen': (context) => const LandingScreen(),
           },
-          initialRoute: '/UserHome',
+          initialRoute: '/LandingScreen',
         ),
       ),
     );
