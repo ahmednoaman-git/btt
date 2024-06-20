@@ -56,6 +56,18 @@ class TextStyles {
     color: AppColors.secondaryText,
   );
 
+  static TextStyle tiny500 = TextStyle(
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w500,
+    color: AppColors.secondaryText,
+  );
+
+  static TextStyle tiny500Accent1 = TextStyle(
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w500,
+    color: AppColors.accent1,
+  );
+
   static TextStyle button = TextStyle(
     fontSize: 16.sp,
     fontWeight: FontWeight.w600,
