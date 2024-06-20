@@ -13,8 +13,6 @@ class CustomBottomNavBar extends StatefulWidget {
 }
 
 class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
-  int _currentIndex = 0;
-  final List<String> _navigationPaths = ['dashboard', 'requests', 'time-off', 'settings'];
   @override
   Widget build(BuildContext context) {
     return Consumer<PagesProvider>(builder: (context, pagesProvider, _) {
@@ -37,38 +35,29 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
               BottomNavigationBarItem(
                 icon: Padding(
                   padding: EdgeInsets.only(bottom: 5),
-                  child: Icon(Icons.route),
+                  child: Icon(Icons.home_filled),
                 ),
-                label: 'Trip',
+                label: 'Home',
               ),
               BottomNavigationBarItem(
                 icon: Padding(
                   padding: EdgeInsets.only(bottom: 5),
-                  child: Icon(Icons.favorite_border_rounded),
+                  child: Icon(Icons.search_rounded),
                 ),
-                activeIcon: Padding(
-                  padding: EdgeInsets.only(bottom: 5),
-                  child: Icon(Icons.favorite_rounded),
-                ),
-                label: 'Favorites',
+                label: 'Search',
               ),
               BottomNavigationBarItem(
                 icon: Padding(
                   padding: EdgeInsets.only(bottom: 5),
-                  child: Icon(Icons.access_time_rounded),
+                  child: Icon(Icons.route_rounded),
                 ),
-                activeIcon: Padding(
-                  padding: EdgeInsets.only(bottom: 5),
-                  child: Icon(Icons.access_time_filled_rounded),
-                ),
-                label: 'Recents',
+                label: 'Track',
               ),
               BottomNavigationBarItem(
                 icon: Padding(
                   padding: EdgeInsets.only(bottom: 5),
-                  child: Icon(Icons.person_outline_rounded),
+                  child: Icon(Icons.person),
                 ),
-                activeIcon: Padding(padding: EdgeInsets.only(bottom: 5), child: Icon(Icons.person)),
                 label: 'Profile',
               )
             ],

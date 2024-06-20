@@ -1,14 +1,15 @@
-import 'package:btt/view/user/favorites%20page/favorites.dart';
 import 'package:btt/view/user/home%20page/user_home_page.dart';
 import 'package:btt/view/user/profile%20page/profile.dart';
-import 'package:btt/view/user/recents%20page/recents.dart';
+import 'package:btt/view/user/search%20route%20page/search_route.dart';
 import 'package:flutter/material.dart';
+
+import '../view/user/live track page/live_track_page.dart';
 
 class PagesProvider extends ChangeNotifier {
   List<Widget> pages = [
     const UserHomePage(),
-    const FavoritesPage(),
-    const RecentsPage(),
+    const SearchRoutePage(),
+    const LiveTrackPage(),
     const ProfilePage(),
   ];
   int currentIndex = 0;

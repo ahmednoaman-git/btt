@@ -15,6 +15,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           'Profile',
           style: TextStyles.largeTitle,
@@ -36,7 +37,7 @@ class ProfilePage extends StatelessWidget {
                 Row(
                   children: [
                     CircleAvatar(
-                      backgroundColor: AppColors.accent1,
+                      backgroundColor: AppColors.darkElevation,
                       radius: 45.r,
                       child: Text(
                         initials,
@@ -53,41 +54,85 @@ class ProfilePage extends StatelessWidget {
                     )
                   ],
                 ),
-                16.verticalSpace,
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(20.r),
+                50.verticalSpace,
+                ProfileTile(
+                  icon: Icon(
+                    Icons.favorite_rounded,
+                    color: AppColors.accent1.withOpacity(0.7),
                   ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(20.r),
-                      splashColor: AppColors.red.withOpacity(0.5),
-                      onTap: () {
-                        context.read<PagesProvider>().reset();
-                        FirebaseAuth.instance.signOut().then((_) {
-                          Navigator.popAndPushNamed(context, '/SignIn');
-                        });
-                      },
-                      child: ListTile(
-                        leading: const Icon(
-                          Icons.logout_rounded,
-                          color: AppColors.red,
-                        ),
-                        title: Text(
-                          'Logout',
-                          style: TextStyles.body,
-                        ),
-                      ),
-                    ),
+                  title: 'Favorites',
+                  onTap: () {},
+                ),
+                15.verticalSpace,
+                ProfileTile(
+                  icon: Icon(
+                    Icons.access_time_filled_rounded,
+                    color: AppColors.accent1.withOpacity(0.7),
                   ),
+                  title: 'Recents',
+                  onTap: () {},
+                ),
+                15.verticalSpace,
+                ProfileTile(
+                  icon: Icon(
+                    Icons.logout_rounded,
+                    color: AppColors.accent1.withOpacity(0.7),
+                  ),
+                  title: 'Logout',
+                  onTap: () {
+                    context.read<PagesProvider>().reset();
+                    FirebaseAuth.instance.signOut().then((_) {
+                      Navigator.popAndPushNamed(context, '/SignIn');
+                    });
+                  },
                 ),
               ],
             ),
           ),
         );
       }),
+    );
+  }
+}
+
+class ProfileTile extends StatelessWidget {
+  final Widget icon;
+  final String title;
+  final VoidCallback onTap;
+  const ProfileTile({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.circular(15.r),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(15.r),
+          splashColor: AppColors.accent1.withOpacity(0.5),
+          onTap: onTap,
+          child: ListTile(
+            contentPadding: const EdgeInsets.symmetric(vertical: 3, horizontal: 10),
+            leading: CircleAvatar(
+              backgroundColor: AppColors.darkElevation.withOpacity(0.8),
+              child: icon,
+            ),
+            trailing: const Icon(Icons.arrow_forward_ios_rounded, color: AppColors.darkElevation),
+            title: Text(
+              title,
+              style: TextStyles.body,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
