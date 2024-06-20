@@ -2,10 +2,10 @@ import 'package:btt/model/entities/app_user.dart';
 import 'package:flutter/material.dart';
 
 class UserProvider extends ChangeNotifier {
-  late final AppUser user;
+  late AppUser user;
 
-  void setUser(AppUser user) {
-    user = user;
+  void setUser(AppUser appUser) {
+    user = appUser;
     notifyListeners();
   }
 }
