@@ -165,7 +165,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                       email: userCredentials.user!.email!,
                                     ),
                                   );
-                              Navigator.of(context).pushNamed('/UserHome');
+                              Navigator.of(context).pushNamed('/Skeleton');
                             }).onError((error, _) {
                               debugPrint(error.toString());
                             });

@@ -40,7 +40,7 @@ class _LandingScreenState extends State<LandingScreen> {
         builder: (context) {
           if (userSignedIn) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              Navigator.of(context).popAndPushNamed('/UserHome');
+              Navigator.of(context).popAndPushNamed('/Skeleton');
             });
             return const SizedBox.shrink();
           } else {

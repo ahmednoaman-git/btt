@@ -1,4 +1,5 @@
 import 'package:btt/cache/cache_manager.dart';
+import 'package:btt/providers/pages_provider.dart';
 import 'package:btt/providers/user_provider.dart';
 import 'package:btt/services/location_services.dart';
 import 'package:btt/tools/firebase_options.dart';
@@ -13,6 +14,7 @@ import 'package:btt/view/screens/sign_in.dart';
 import 'package:btt/view/screens/sign_up.dart';
 import 'package:btt/view/user/Adding%20Location%20Screen/current_location_screen.dart';
 import 'package:btt/view/user/home%20page/user_home_page.dart';
+import 'package:btt/view/user/skeleton/skeleton.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -56,6 +58,7 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(create: (_) => CacheManager()..init()),
           ChangeNotifierProvider(create: (_) => UserProvider()),
+          ChangeNotifierProvider(create: (_) => PagesProvider()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -84,6 +87,7 @@ class MyApp extends StatelessWidget {
             '/UserHome': (context) => const UserHomePage(),
             '/MapSelector': (context) => const CurrentLocationScreen(),
             '/LandingScreen': (context) => const LandingScreen(),
+            '/Skeleton': (context) => const Skeleton(),
           },
           initialRoute: '/LandingScreen',
         ),

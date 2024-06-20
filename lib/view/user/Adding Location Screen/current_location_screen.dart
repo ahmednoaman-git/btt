@@ -119,8 +119,8 @@ class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
                   MainButton(
                       text: 'Continue',
                       onPressed: () {
-                        print('Pick Up: $pickUpLocation');
-                        print('Destination: $destinationLocation');
+                        debugPrint('Pick Up: $pickUpLocation');
+                        debugPrint('Destination: $destinationLocation');
                       }),
                   22.verticalSpace,
                 ],
