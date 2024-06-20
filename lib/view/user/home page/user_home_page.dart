@@ -2,7 +2,6 @@ import 'package:btt/cache/cache_manager.dart';
 import 'package:btt/view/global/constants/colors.dart';
 import 'package:btt/view/user/home%20page/components/recent_trips.dart';
 import 'package:btt/view/user/home%20page/components/user_preferences.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -25,13 +24,10 @@ class _UserHomePageState extends State<UserHomePage> {
       return Scaffold(
         extendBody: true,
         appBar: AppBar(
+          surfaceTintColor: Colors.transparent,
           actions: [
             IconButton(
-              onPressed: () {
-                FirebaseAuth.instance.signOut().then((_) {
-                  Navigator.popAndPushNamed(context, '/SignIn');
-                });
-              },
+              onPressed: () {},
               icon: const Icon(
                 Icons.more_vert_rounded,
                 color: AppColors.text,

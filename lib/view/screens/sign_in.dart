@@ -120,7 +120,7 @@ class _SignInState extends State<SignIn> {
                                     email: userCredentials.user!.email!,
                                   ),
                                 );
-                            Navigator.of(context).pushNamed('/Skeleton');
+                            Navigator.of(context).popAndPushNamed('/Skeleton');
                           }).onError((error, _) {
                             debugPrint(error.toString());
                           });

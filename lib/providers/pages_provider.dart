@@ -28,4 +28,10 @@ class PagesProvider extends ChangeNotifier {
     currentIndex = index;
     notifyListeners();
   }
+
+  void reset() {
+    currentIndex = 0;
+    pageController.jumpToPage(0);
+    notifyListeners();
+  }
 }
