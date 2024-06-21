@@ -15,7 +15,6 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: Text(
           'Profile',
           style: TextStyles.largeTitle,
@@ -34,7 +33,7 @@ class ProfilePage extends StatelessWidget {
             padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h),
             child: Column(
               children: [
-                Row(
+                Column(
                   children: [
                     CircleAvatar(
                       backgroundColor: AppColors.darkElevation,
@@ -44,14 +43,9 @@ class ProfilePage extends StatelessWidget {
                         style: TextStyles.title,
                       ),
                     ),
-                    15.horizontalSpace,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(userProvider.user.name, style: TextStyles.body.apply(fontWeightDelta: 1)),
-                        Text(userProvider.user.email, style: TextStyles.bodyThin),
-                      ],
-                    )
+                    15.verticalSpace,
+                    Text(userProvider.user.name, style: TextStyles.body.apply(fontWeightDelta: 1)),
+                    Text(userProvider.user.email, style: TextStyles.bodyThin)
                   ],
                 ),
                 50.verticalSpace,
@@ -61,7 +55,9 @@ class ProfilePage extends StatelessWidget {
                     color: AppColors.accent1.withOpacity(0.7),
                   ),
                   title: 'Favorites',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, '/Favorites');
+                  },
                 ),
                 15.verticalSpace,
                 ProfileTile(

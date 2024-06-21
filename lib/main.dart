@@ -1,9 +1,9 @@
 import 'package:btt/cache/cache_manager.dart';
+import 'package:btt/providers/favorites_provider.dart';
 import 'package:btt/providers/pages_provider.dart';
 import 'package:btt/providers/user_provider.dart';
 import 'package:btt/services/location_services.dart';
 import 'package:btt/tools/firebase_options.dart';
-import 'package:btt/tools/response.dart';
 import 'package:btt/view/admin/admin_home_page.dart';
 import 'package:btt/view/admin/create%20bus%20screen/create_bus_screen.dart';
 import 'package:btt/view/admin/create%20location%20screen/create_location_screen.dart';
@@ -13,6 +13,7 @@ import 'package:btt/view/screens/landing_screen.dart';
 import 'package:btt/view/screens/sign_in.dart';
 import 'package:btt/view/screens/sign_up.dart';
 import 'package:btt/view/user/Adding%20Location%20Screen/current_location_screen.dart';
+import 'package:btt/view/user/favorites%20page/favorites.dart';
 import 'package:btt/view/user/home%20page/user_home_page.dart';
 import 'package:btt/view/user/skeleton/skeleton.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -33,7 +34,7 @@ Future<void> main() async {
 }
 
 Future<MapLocation?> getNearestRegisteredLocation(LatLng targetLocation) async {
-  final List<MapLocation> locations = ((await LocationServices.getLocations()) as Response<List<MapLocation>>).data ?? [];
+  final List<MapLocation> locations = ((await LocationServices.getLocations())).data ?? [];
   double minDistance = double.infinity;
   MapLocation? nearestLocation;
 
@@ -59,6 +60,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => CacheManager()..init()),
           ChangeNotifierProvider(create: (_) => UserProvider()),
           ChangeNotifierProvider(create: (_) => PagesProvider()),
+          ChangeNotifierProvider(create: (_) => FavoritesProvider()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -88,6 +90,7 @@ class MyApp extends StatelessWidget {
             '/MapSelector': (context) => const CurrentLocationScreen(),
             '/LandingScreen': (context) => const LandingScreen(),
             '/Skeleton': (context) => const Skeleton(),
+            '/Favorites': (context) => const FavoritesPage(),
           },
           initialRoute: '/LandingScreen',
         ),
