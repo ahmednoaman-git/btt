@@ -13,6 +13,7 @@ import 'package:btt/view/screens/landing_screen.dart';
 import 'package:btt/view/screens/sign_in.dart';
 import 'package:btt/view/screens/sign_up.dart';
 import 'package:btt/view/user/Adding%20Location%20Screen/current_location_screen.dart';
+import 'package:btt/view/user/favorites%20page/add_favorite_page.dart';
 import 'package:btt/view/user/favorites%20page/favorites.dart';
 import 'package:btt/view/user/home%20page/user_home_page.dart';
 import 'package:btt/view/user/skeleton/skeleton.dart';
@@ -91,6 +92,7 @@ class MyApp extends StatelessWidget {
             '/LandingScreen': (context) => const LandingScreen(),
             '/Skeleton': (context) => const Skeleton(),
             '/Favorites': (context) => const FavoritesPage(),
+            '/AddToFavorites': (context) => const AddToFavoritePage(),
           },
           initialRoute: '/LandingScreen',
         ),

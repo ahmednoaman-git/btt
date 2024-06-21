@@ -1,15 +1,21 @@
 import 'package:btt/model/entities/map_location.dart';
+import 'package:btt/providers/favorites_provider.dart';
+import 'package:btt/providers/user_provider.dart';
+import 'package:btt/services/user_services.dart';
 import 'package:btt/view/global/constants/colors.dart';
 import 'package:btt/view/global/constants/text_styles.dart';
 import 'package:btt/view/widgets/misc/mini_map.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class FavoritesPage extends StatelessWidget {
   const FavoritesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    bool isLoading = context.watch<FavoritesProvider>().isLoading;
+    final List<MapLocation> favorites = context.watch<FavoritesProvider>().favoriteLocations;
     return Scaffold(
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
@@ -18,30 +24,35 @@ class FavoritesPage extends StatelessWidget {
           style: TextStyles.largeTitle,
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: Column(
-            children: [
-              for (var i = 0; i < 15; i++) ...[
-                FavoriteTile(
-                  location: MapLocation(
-                    name: 'New Cairo City, 5th Settlement',
-                    latitude: 30.033333,
-                    longitude: 31.233334,
-                  ),
+      body: isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: Column(
+                  children: [
+                    for (MapLocation mapLocation in favorites) ...[
+                      FavoriteTile(
+                        location: mapLocation,
+                      ),
+                      20.verticalSpace,
+                    ],
+                  ],
                 ),
-                20.verticalSpace,
-              ]
-            ],
-          ),
-        ),
-      ),
+              ),
+            ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.accent1.withOpacity(0.8),
         shape: const CircleBorder(),
-        onPressed: () {},
-        child: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.of(context).pushNamed('/AddToFavorites');
+        },
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
     );
   }
@@ -88,7 +99,11 @@ class FavoriteTile extends StatelessWidget {
                 ),
               ),
               OutlinedButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.read<FavoritesProvider>().deleteLocation(location);
+                  final String userId = context.read<UserProvider>().user.id;
+                  UserServices.removeFavoriteLocation(userId, location.id);
+                },
                 child: Text(
                   'Delete',
                   style: TextStyles.button.apply(color: AppColors.red),

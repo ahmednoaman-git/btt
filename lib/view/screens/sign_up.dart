@@ -1,6 +1,7 @@
 import 'package:btt/functions/validators.dart';
 import 'package:btt/model/entities/app_user.dart';
 import 'package:btt/providers/user_provider.dart';
+import 'package:btt/services/user_services.dart';
 import 'package:btt/view/global/constants/colors.dart';
 import 'package:btt/view/widgets/action/main_button.dart';
 import 'package:btt/view/widgets/input/app_text_field.dart';
@@ -157,7 +158,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             )
                                 .then((userCredentials) {
                               userCredentials.user!.updateDisplayName(nameCTRL.text);
-
+                              UserServices.createUser(userCredentials.user!.uid);
                               context.read<UserProvider>().setUser(
                                     AppUser(
                                       id: userCredentials.user!.uid,
