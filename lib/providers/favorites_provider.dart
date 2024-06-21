@@ -1,12 +1,21 @@
+import 'package:btt/services/user_services.dart';
 import 'package:flutter/material.dart';
 
 import '../model/entities/map_location.dart';
 
 class FavoritesProvider extends ChangeNotifier {
-  late List<MapLocation> favoriteLocations;
+  List<MapLocation> favoriteLocations = [];
+  bool isLoading = false;
 
-  void fetchFavoriteLocations(String userId) {
-    // fetch favorite locations from FireStore
+  void setLoading(bool load) {
+    isLoading = load;
+    notifyListeners();
+  }
+
+  void fetchFavoriteLocations(String userId) async {
+    setLoading(true);
+    favoriteLocations = await UserServices.getFavoriteLocations(userId);
+    setLoading(false);
   }
 
   void addLocation(MapLocation mapLocation) {
@@ -19,5 +28,15 @@ class FavoritesProvider extends ChangeNotifier {
       return location.id == mapLocation.id;
     });
     notifyListeners();
+  }
+
+  bool checkIsInFavorite(String locationId) {
+    bool found = false;
+    for (var location in favoriteLocations) {
+      if (location.id == locationId) {
+        found = true;
+      }
+    }
+    return found;
   }
 }
