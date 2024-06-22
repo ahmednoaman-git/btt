@@ -9,6 +9,7 @@ import 'package:btt/view/admin/create%20bus%20screen/create_bus_screen.dart';
 import 'package:btt/view/admin/create%20location%20screen/create_location_screen.dart';
 import 'package:btt/view/admin/create%20route%20screen/create_route_screen.dart';
 import 'package:btt/view/global/constants/colors.dart';
+import 'package:btt/view/screens/graph_view.dart';
 import 'package:btt/view/screens/landing_screen.dart';
 import 'package:btt/view/screens/sign_in.dart';
 import 'package:btt/view/screens/sign_up.dart';
@@ -17,6 +18,7 @@ import 'package:btt/view/user/favorites%20page/add_favorite_page.dart';
 import 'package:btt/view/user/favorites%20page/favorites.dart';
 import 'package:btt/view/user/home%20page/user_home_page.dart';
 import 'package:btt/view/user/skeleton/skeleton.dart';
+import 'package:btt/view/user/view_lookup_path.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -89,12 +91,14 @@ class MyApp extends StatelessWidget {
             '/CreateBus': (context) => const CreateBusScreen(),
             '/UserHome': (context) => const UserHomePage(),
             '/MapSelector': (context) => const CurrentLocationScreen(),
+            '/GraphView': (context) => const GraphViewScreen(),
+            '/ViewLookupPath': (context) => const ViewLookupPathScreen(),
             '/LandingScreen': (context) => const LandingScreen(),
             '/Skeleton': (context) => const Skeleton(),
             '/Favorites': (context) => const FavoritesPage(),
             '/AddToFavorites': (context) => const AddToFavoritePage(),
           },
-          initialRoute: '/LandingScreen',
+          initialRoute: '/ViewLookupPath',
         ),
       ),
     );

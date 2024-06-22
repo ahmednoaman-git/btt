@@ -38,23 +38,24 @@ class Bus {
     });
   }
 
-  factory Bus.fromJson(Map<String, dynamic> json) {
+  factory Bus.fromJson(Map<String, dynamic> json, {bool readDateAsTimestamp = true}) {
     return Bus(
       id: json['id'],
       identifier: json['identifier'],
       routeId: json['routeId'],
-      departureTime: (json['departureTime'] as Timestamp).toDate(),
+      departureTime: readDateAsTimestamp ? (json['departureTime'] as Timestamp).toDate() : json['departureTime'],
       status: BusStatus.values[json['status']],
-      currentLocation: MapLocation.fromJson(json['currentLocation']),
+      currentLocation: MapLocation.fromJson(Map<String, dynamic>.from(json['currentLocation'])),
       fare: json['fare'],
     );
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool convertToTimestamp = true, bool includeId = false}) {
     return {
+      if (includeId) 'id': id,
       'identifier': identifier,
       'routeId': routeId,
-      'departureTime': Timestamp.fromDate(departureTime),
+      'departureTime': convertToTimestamp ? Timestamp.fromDate(departureTime) : departureTime,
       'status': status.index,
       'currentLocation': currentLocation.toJson(),
       'fare': fare,

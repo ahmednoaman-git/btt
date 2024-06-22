@@ -20,9 +20,9 @@ class MapRoute {
     return MapRoute(
       id: json['id'],
       name: json['name'],
-      stops: json['stops'].map<MapLocation>((stop) => MapLocation.fromJson(stop)).toList(),
-      start: MapLocation.fromJson(json['start']),
-      end: MapLocation.fromJson(json['end']),
+      stops: json['stops'].map<MapLocation>((stop) => MapLocation.fromJson(Map<String, dynamic>.from(stop))).toList(),
+      start: MapLocation.fromJson(Map<String, dynamic>.from(json['start'])),
+      end: MapLocation.fromJson(Map<String, dynamic>.from(json['end'])),
     );
   }
 
@@ -46,12 +46,13 @@ class MapRoute {
     );
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool includeId = false, bool includeStopsAsObjects = false}) {
     return {
+      if (includeId) 'id': id,
       'name': name,
-      'stops': stops.map((stop) => stop.id).toList(),
-      'start': start.id,
-      'end': end.id,
+      'stops': includeStopsAsObjects ? stops.map((stop) => stop.toJson()).toList() : stops.map((stop) => stop.id).toList(),
+      'start': includeStopsAsObjects ? start.toJson() : start.id,
+      'end': includeStopsAsObjects ? end.toJson() : end.id,
     };
   }
 }

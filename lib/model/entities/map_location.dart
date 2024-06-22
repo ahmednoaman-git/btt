@@ -40,8 +40,9 @@ class MapLocation {
     );
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool includeId = false}) {
     return {
+      if (includeId) 'id': id,
       'name': name,
       'latitude': latitude,
       'longitude': longitude,
