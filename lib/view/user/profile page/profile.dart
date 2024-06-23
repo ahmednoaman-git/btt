@@ -71,6 +71,17 @@ class ProfilePage extends StatelessWidget {
                 15.verticalSpace,
                 ProfileTile(
                   icon: Icon(
+                    Icons.chat_rounded,
+                    color: AppColors.accent1.withOpacity(0.7),
+                  ),
+                  title: 'BusBot',
+                  onTap: () {
+                    Navigator.pushNamed(context, '/ChatBotScreen');
+                  },
+                ),
+                15.verticalSpace,
+                ProfileTile(
+                  icon: Icon(
                     Icons.logout_rounded,
                     color: AppColors.accent1.withOpacity(0.7),
                   ),
