@@ -1,6 +1,7 @@
 import 'package:btt/cache/cache_manager.dart';
 import 'package:btt/providers/favorites_provider.dart';
 import 'package:btt/providers/pages_provider.dart';
+import 'package:btt/providers/search_screen_provider.dart';
 import 'package:btt/providers/user_provider.dart';
 import 'package:btt/services/location_services.dart';
 import 'package:btt/tools/firebase_options.dart';
@@ -64,6 +65,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => UserProvider()),
           ChangeNotifierProvider(create: (_) => PagesProvider()),
           ChangeNotifierProvider(create: (_) => FavoritesProvider()),
+          ChangeNotifierProvider(create: (_) => SearchScreenProvider()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -92,13 +94,12 @@ class MyApp extends StatelessWidget {
             '/UserHome': (context) => const UserHomePage(),
             '/MapSelector': (context) => const CurrentLocationScreen(),
             '/GraphView': (context) => const GraphViewScreen(),
-            '/ViewLookupPath': (context) => const ViewLookupPathScreen(),
             '/LandingScreen': (context) => const LandingScreen(),
             '/Skeleton': (context) => const Skeleton(),
             '/Favorites': (context) => const FavoritesPage(),
             '/AddToFavorites': (context) => const AddToFavoritePage(),
           },
-          initialRoute: '/ViewLookupPath',
+          initialRoute: '/LandingScreen',
         ),
       ),
     );

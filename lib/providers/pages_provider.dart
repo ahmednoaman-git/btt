@@ -1,6 +1,6 @@
 import 'package:btt/view/user/home%20page/user_home_page.dart';
 import 'package:btt/view/user/profile%20page/profile.dart';
-import 'package:btt/view/user/search%20route%20page/search_route.dart';
+import 'package:btt/view/user/search_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../view/user/live track page/live_track_page.dart';
@@ -8,7 +8,7 @@ import '../view/user/live track page/live_track_page.dart';
 class PagesProvider extends ChangeNotifier {
   List<Widget> pages = [
     const UserHomePage(),
-    const SearchRoutePage(),
+    const SearchScreen(),
     const LiveTrackPage(),
     const ProfilePage(),
   ];

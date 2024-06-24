@@ -30,6 +30,7 @@ class _SkeletonState extends State<Skeleton> {
         return PageView(
           controller: pagesProviders.pageController,
           onPageChanged: pagesProviders.setIndexFromPageView,
+          physics: const NeverScrollableScrollPhysics(),
           children: pagesProviders.pages,
         );
       }),

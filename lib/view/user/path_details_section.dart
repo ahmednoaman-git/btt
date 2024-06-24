@@ -1,6 +1,7 @@
 import 'package:btt/model/entities/bus.dart';
 import 'package:btt/model/entities/map_location.dart';
 import 'package:btt/view/global/constants/text_styles.dart';
+import 'package:btt/view/user/view_lookup_path.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,11 +11,15 @@ import '../../utils/path_searching_utils.dart';
 
 class PathDetailsSection extends StatefulWidget {
   final List<ViewablePath> viewablePath;
+  final WalkPath startWalkPath;
   final MapLocation startLocation;
+  final WalkPath endWalkPath;
   const PathDetailsSection({
     super.key,
     required this.viewablePath,
+    required this.startWalkPath,
     required this.startLocation,
+    required this.endWalkPath,
   });
 
   @override
@@ -50,57 +55,14 @@ class _PathDetailsSectionState extends State<PathDetailsSection> {
       child: Column(
         children: [
           for (final PathSection section in pathSections) ...[
-            Column(
-              children: [
-                Row(
-                  children: [
-                    SvgPicture.asset('assets/bus.svg', height: 40.h),
-                    16.horizontalSpace,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        RichText(
-                          text: TextSpan(
-                            text: 'Take Bus ',
-                            style: TextStyles.body,
-                            children: [
-                              TextSpan(
-                                text: section.bus.identifier,
-                                style: TextStyles.body.copyWith(fontWeight: FontWeight.w700),
-                              ),
-                            ],
-                          ),
-                        ),
-                        // distance
-                        Text(
-                          '${section.distance.toStringAsFixed(2)} km',
-                          style: TextStyles.body.copyWith(color: Colors.grey),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    Text(
-                      '${PathSearchingUtils.getTravelDurationForPath(section.startLocation, section.endLocation).inMinutes} min',
-                      style: TextStyles.body,
-                    ),
-                  ],
-                ),
-                16.verticalSpace,
-                Row(
-                  children: [
-                    LocationNameContainer(name: section.startLocation.name),
-                    Expanded(
-                      child: DottedLine(
-                        direction: Axis.horizontal,
-                        lineThickness: 1.5,
-                        dashLength: 4,
-                        dashColor: Colors.grey.withOpacity(0.1),
-                      ),
-                    ),
-                    LocationNameContainer(name: section.endLocation.name),
-                  ],
-                ),
-              ],
+            _stepTile(
+              true,
+              false,
+              section.bus.identifier,
+              PathSearchingUtils.getTravelDurationForPath(section.startLocation, section.endLocation).inMinutes.toString(),
+              section.distance,
+              section.startLocation.name,
+              section.endLocation.name,
             ),
             if (section != pathSections.last) ...[
               Divider(height: 40.h),
@@ -108,6 +70,62 @@ class _PathDetailsSectionState extends State<PathDetailsSection> {
           ]
         ],
       ),
+    );
+  }
+
+  Widget _stepTile(bool isBus, bool isStartWalk, String busTitle, String duration, double distance, String startName, String endName) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            SvgPicture.asset('assets/${isBus ? 'bus' : 'person'}.svg', height: 40.h),
+            16.horizontalSpace,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                RichText(
+                  text: TextSpan(
+                    text: 'Take ${{isBus ? 'Bus' : 'a walk to'}} ',
+                    style: TextStyles.body,
+                    children: [
+                      TextSpan(
+                        text: isBus ? busTitle : (isStartWalk ? endName : startName),
+                        style: TextStyles.body.copyWith(fontWeight: FontWeight.w700),
+                      ),
+                    ],
+                  ),
+                ),
+                // distance
+                Text(
+                  '${distance.toStringAsFixed(2)} km',
+                  style: TextStyles.body.copyWith(color: Colors.grey),
+                ),
+              ],
+            ),
+            const Spacer(),
+            Text(
+              //PathSearchingUtils.getTravelDurationForPath(section.startLocation, section.endLocation).inMinutes}
+              '$duration min',
+              style: TextStyles.body,
+            ),
+          ],
+        ),
+        16.verticalSpace,
+        Row(
+          children: [
+            LocationNameContainer(name: startName),
+            Expanded(
+              child: DottedLine(
+                direction: Axis.horizontal,
+                lineThickness: 1.5,
+                dashLength: 4,
+                dashColor: Colors.grey.withOpacity(0.1),
+              ),
+            ),
+            LocationNameContainer(name: endName),
+          ],
+        ),
+      ],
     );
   }
 }
