@@ -136,99 +136,114 @@ class _ViewLookupPathScreenState extends State<ViewLookupPathScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.elevationOne,
-      body: Consumer<CacheManager>(builder: (context, cacheManager, _) {
-        if (cacheManager.loading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+      body: Consumer<CacheManager>(
+        builder: (context, cacheManager, _) {
+          if (cacheManager.loading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
 
-        if (!_initialized) {
-          final locations = cacheManager.locations.values.toList();
-          _startLocationId = _getNearestLocationToLatLng(widget.startLocation, locations);
-          _endLocationId = _getNearestLocationToLatLng(widget.endLocation, locations);
+          if (!_initialized) {
+            final locations = cacheManager.locations.values.toList();
+            _startLocationId = _getNearestLocationToLatLng(widget.startLocation, locations);
+            _endLocationId = _getNearestLocationToLatLng(widget.endLocation, locations);
 
-          final path = cacheManager.graph.dijkstra(_startLocationId, _endLocationId);
-          viewablePath.addAll([
-            ...PathSearchingUtils.getViewablePathFromEdges(
-              path,
-              locations,
-              cacheManager.buses.values.toList(),
-            ),
-          ]);
-          _loadPolylinePoints(
-            viewablePath,
-            cacheManager.locations[_startLocationId]!,
-            widget.startLocation,
-            cacheManager.locations[_endLocationId]!,
-            widget.endLocation,
-          ).then((value) {
-            setState(() {});
-          });
-          _initialized = true;
-        }
-        return Column(
-          children: [
-            Expanded(
-              child: Container(
-                clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  boxShadow: [BoxShadow(color: AppColors.background.withOpacity(0.5), offset: const Offset(0, 2), blurRadius: 4)],
-                ),
-                child: GoogleMap(
-                  onMapCreated: (GoogleMapController controller) {
-                    _controller.complete(controller);
-                    controller.setMapStyle(_darkMapStyle);
-                    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                      setState(() {
-                        controller.animateCamera(
-                          CameraUpdate.newLatLngBounds(
-                            _getBounds([
-                              ...viewablePath.expand((element) => element.stops.map((e) => LatLng(e.latitude, e.longitude))),
-                            ]),
-                            50,
-                          ),
-                        );
+            final path = cacheManager.graph.dijkstra(_startLocationId, _endLocationId);
+            viewablePath.addAll([
+              ...PathSearchingUtils.getViewablePathFromEdges(
+                path,
+                locations,
+                cacheManager.buses.values.toList(),
+              ),
+            ]);
+            _loadPolylinePoints(
+              viewablePath,
+              cacheManager.locations[_startLocationId]!,
+              widget.startLocation,
+              cacheManager.locations[_endLocationId]!,
+              widget.endLocation,
+            ).then((value) {
+              setState(() {});
+            });
+            _initialized = true;
+          }
+          return Column(
+            children: [
+              Expanded(
+                child: Container(
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    boxShadow: [BoxShadow(color: AppColors.background.withOpacity(0.5), offset: const Offset(0, 2), blurRadius: 4)],
+                  ),
+                  child: GoogleMap(
+                    onMapCreated: (GoogleMapController controller) {
+                      _controller.complete(controller);
+                      controller.setMapStyle(_darkMapStyle);
+                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                        setState(() {
+                          controller.animateCamera(
+                            CameraUpdate.newLatLngBounds(
+                              _getBounds([
+                                ...viewablePath.expand((element) => element.stops.map((e) => LatLng(e.latitude, e.longitude))),
+                              ]),
+                              50,
+                            ),
+                          );
+                        });
                       });
-                    });
-                  },
-                  initialCameraPosition: CameraPosition(
-                    target: PathSearchingUtils.getBestCenterForPath(cacheManager.locations[_startLocationId]!, cacheManager.locations[_endLocationId]!),
-                  ),
-                  zoomControlsEnabled: true,
-                  zoomGesturesEnabled: true,
-                  onCameraMove: (CameraPosition position) {
-                    _currentCameraPosition = position;
-                  },
-                  polylines: _polylines,
-                  markers: _markers,
-                ),
-              ),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: PathDetailsSection(
-                  viewablePath: viewablePath,
-                  startWalkPath: WalkPath(
-                    distance: cacheManager.locations[_startLocationId]!.distanceToLocationFromLatLng(widget.startLocation),
-                    duration: const Duration(minutes: 5),
-                    startLabel: 'Start',
-                    endLabel: viewablePath.first.stops.first.name,
-                  ),
-                  startLocation: cacheManager.locations[_startLocationId]!,
-                  endWalkPath: WalkPath(
-                    distance: cacheManager.locations[_endLocationId]!.distanceToLocationFromLatLng(widget.endLocation),
-                    duration: const Duration(minutes: 5),
-                    startLabel: viewablePath.last.stops.last.name,
-                    endLabel: 'Destination',
+                    },
+                    initialCameraPosition: CameraPosition(
+                      target: PathSearchingUtils.getBestCenterForPath(cacheManager.locations[_startLocationId]!, cacheManager.locations[_endLocationId]!),
+                    ),
+                    zoomControlsEnabled: true,
+                    zoomGesturesEnabled: true,
+                    onCameraMove: (CameraPosition position) {
+                      _currentCameraPosition = position;
+                    },
+                    polylines: _polylines,
+                    markers: _markers,
                   ),
                 ),
               ),
-            ),
-          ],
-        );
-      }),
+              if (viewablePath.isNotEmpty)
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: PathDetailsSection(
+                      viewablePath: viewablePath,
+                      startWalkPath: WalkPath(
+                        distance: cacheManager.locations[_startLocationId]!.distanceToLocationFromLatLng(widget.startLocation),
+                        duration: const Duration(minutes: 5),
+                        startLabel: 'Start',
+                        endLabel: viewablePath.first.stops.first.name,
+                      ),
+                      startLocation: cacheManager.locations[_startLocationId]!,
+                      endWalkPath: WalkPath(
+                        distance: cacheManager.locations[_endLocationId]!.distanceToLocationFromLatLng(widget.endLocation),
+                        duration: const Duration(minutes: 5),
+                        startLabel: viewablePath.last.stops.last.name,
+                        endLabel: 'Destination',
+                      ),
+                    ),
+                  ),
+                ),
+              if (viewablePath.isEmpty)
+                const Expanded(
+                  child: Center(
+                    child: Text(
+                      'No path found',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          );
+        },
+      ),
     );
   }
 

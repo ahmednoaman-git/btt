@@ -54,6 +54,18 @@ class _PathDetailsSectionState extends State<PathDetailsSection> {
       padding: EdgeInsets.all(16.r),
       child: Column(
         children: [
+          _stepTile(
+            false,
+            true,
+            '',
+            widget.startWalkPath.duration.inMinutes.toString(),
+            widget.startWalkPath.distance,
+            'Start',
+            pathSections.first.startLocation.name,
+          ),
+          if (pathSections.isNotEmpty) ...[
+            Divider(height: 40.h),
+          ],
           for (final PathSection section in pathSections) ...[
             _stepTile(
               true,
@@ -67,7 +79,17 @@ class _PathDetailsSectionState extends State<PathDetailsSection> {
             if (section != pathSections.last) ...[
               Divider(height: 40.h),
             ],
-          ]
+          ],
+          Divider(height: 40.h),
+          _stepTile(
+            false,
+            false,
+            '',
+            widget.endWalkPath.duration.inMinutes.toString(),
+            widget.endWalkPath.distance,
+            pathSections.last.endLocation.name,
+            'End',
+          ),
         ],
       ),
     );
@@ -78,14 +100,14 @@ class _PathDetailsSectionState extends State<PathDetailsSection> {
       children: [
         Row(
           children: [
-            SvgPicture.asset('assets/${isBus ? 'bus' : 'person'}.svg', height: 40.h),
+            SvgPicture.asset('assets/${isBus ? 'bus' : 'icons/person'}.svg', height: 40.h),
             16.horizontalSpace,
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 RichText(
                   text: TextSpan(
-                    text: 'Take ${{isBus ? 'Bus' : 'a walk to'}} ',
+                    text: 'Take ${isBus ? 'Bus' : 'a walk to'} ',
                     style: TextStyles.body,
                     children: [
                       TextSpan(
