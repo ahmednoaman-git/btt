@@ -1,5 +1,6 @@
 import 'package:btt/cache/cache_manager.dart';
 import 'package:btt/providers/favorites_provider.dart';
+import 'package:btt/providers/message_provider.dart';
 import 'package:btt/providers/pages_provider.dart';
 import 'package:btt/providers/search_screen_provider.dart';
 import 'package:btt/providers/user_provider.dart';
@@ -15,6 +16,7 @@ import 'package:btt/view/screens/landing_screen.dart';
 import 'package:btt/view/screens/sign_in.dart';
 import 'package:btt/view/screens/sign_up.dart';
 import 'package:btt/view/user/Adding%20Location%20Screen/current_location_screen.dart';
+import 'package:btt/view/user/chatbot%20page/chat_screen.dart';
 import 'package:btt/view/user/favorites%20page/add_favorite_page.dart';
 import 'package:btt/view/user/favorites%20page/favorites.dart';
 import 'package:btt/view/user/home%20page/user_home_page.dart';
@@ -64,6 +66,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => CacheManager()..init()),
           ChangeNotifierProvider(create: (_) => UserProvider()),
           ChangeNotifierProvider(create: (_) => PagesProvider()),
+          ChangeNotifierProvider(create: (_) => MessageProvider()),
           ChangeNotifierProvider(create: (_) => FavoritesProvider()),
           ChangeNotifierProvider(create: (_) => SearchScreenProvider()),
         ],
@@ -98,6 +101,7 @@ class MyApp extends StatelessWidget {
             '/Skeleton': (context) => const Skeleton(),
             '/Favorites': (context) => const FavoritesPage(),
             '/AddToFavorites': (context) => const AddToFavoritePage(),
+            '/ChatBotScreen': (context) => const ChatScreen(),
           },
           initialRoute: '/LandingScreen',
         ),

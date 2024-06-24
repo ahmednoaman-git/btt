@@ -1,6 +1,8 @@
+import 'package:btt/providers/favorites_provider.dart';
 import 'package:btt/view/widgets/misc/list_text_fav.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../../global/constants/colors.dart';
 import '../../../global/constants/text_styles.dart';
@@ -11,6 +13,7 @@ class LocationFavoritesContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> favorites = context.watch<FavoritesProvider>().favoriteLocations.map((location) => location.name).toList();
     return Column(
       children: [
         Row(
@@ -31,39 +34,33 @@ class LocationFavoritesContainer extends StatelessWidget {
               color: AppColors.darkElevation,
               borderRadius: BorderRadius.circular(20.r),
             ),
-            child: Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        ListTextFav(text: 'ASU- Faculty of Engineering'),
-                        10.verticalSpace,
-                        ListTextFav(text: 'Al Abbaseya'),
-                        10.verticalSpace,
-                        ListTextFav(text: 'Ramses'),
-                        10.verticalSpace,
-                        ListTextFav(text: 'Al Ahram'),
-                        10.verticalSpace,
-                        ListTextFav(text: 'Abdo Basha'),
-                        10.verticalSpace,
-                        ListTextFav(text: 'Abdo Basha'),
-                        10.verticalSpace,
-                        ListTextFav(text: 'Abdo Basha'),
-                        10.verticalSpace,
-                      ],
-                    ),
+            child: context.watch<FavoritesProvider>().isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : Column(
+                    children: [
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              for (var name in favorites.take(5).toList()) ...[
+                                ListTextFav(text: name),
+                                10.verticalSpace,
+                              ]
+                            ],
+                          ),
+                        ),
+                      ),
+                      10.verticalSpace,
+                      MainButton(
+                        text: 'More...',
+                        hollow: true,
+                        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/Favorites');
+                        },
+                      )
+                    ],
                   ),
-                ),
-                10.verticalSpace,
-                MainButton(
-                  text: 'More...',
-                  hollow: true,
-                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-                  onPressed: () {},
-                )
-              ],
-            ),
           ),
         )
       ],
