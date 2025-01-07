@@ -74,7 +74,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         hintText: 'Email',
                         validator: (value) {
                           if (value == null || value == '') {
-                            return 'Required';
+                            return 'Email is required';
                           }
                           return null;
                         },
@@ -99,7 +99,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         hintText: 'Confirm Password',
                         validator: (value) {
                           if (value == null || value == '') {
-                            return 'Required';
+                            return 'Confirmation required';
                           }
                           return null;
                         },
@@ -115,7 +115,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         keyboardType: TextInputType.number,
                         validator: (value) {
                           if (value == null || value == '') {
-                            return 'Required';
+                            return 'Mobile Number is required';
                           }
                           return null;
                         },
